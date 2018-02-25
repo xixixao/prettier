@@ -407,7 +407,7 @@ function printPathNoParens(path, options, print, args) {
       return printAssignment(
         n.left,
         path.call(print, "left"),
-        concat([" ", printAssignmentOperator(n.left, n.operator)]),
+        concat([" ", printAssignmentOperator(n.left, n.operator, options)]),
         n.right,
         path.call(print, "right"),
         options
@@ -4924,8 +4924,8 @@ function printAssignment(
   return group(concat([printedLeft, operator, printed]));
 }
 
-function printAssignmentOperator(left, operator) {
-  return operator === "=" ? ":=" : operator;
+function printAssignmentOperator(left, operator, options) {
+  return options.lenient && operator === "=" ? ":=" : operator;
 }
 
 function adjustClause(node, clause, forceSpace) {
