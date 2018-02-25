@@ -37,13 +37,31 @@ const isLineNext = docUtils.isLineNext;
 const isEmpty = docUtils.isEmpty;
 const rawText = docUtils.rawText;
 
-const lineComma = ifBreak("", ",");
-const openBrace = ifBreak("", "{");
-const closeBrace = ifBreak("", concat([hardline, "}"]));
-const openParen = body =>
-  body === false || body.type === "BlockStatement" ? " " : " (";
-const closeParen = body =>
-  body === false || body.type === "BlockStatement" ? "" : ")";
+function lineComma(options) {
+  return !options.lenient ? "," : ifBreak("", ",");
+}
+
+function openBrace(options) {
+  return !options.lenient ? "{" : ifBreak("", "{");
+}
+
+function closeBrace(options) {
+  return !options.lenient
+    ? concat([hardline, "}"])
+    : ifBreak("", concat([hardline, "}"]));
+}
+
+function openParen(options, body) {
+  return !options.lenient
+    ? " ("
+    : body === false || body.type === "BlockStatement" ? " " : " (";
+}
+
+function closeParen(options, body) {
+  return !options.lenient
+    ? ")"
+    : body === false || body.type === "BlockStatement" ? "" : ")";
+}
 
 function shouldPrintComma(options, level) {
   level = level || "es5";
@@ -690,7 +708,7 @@ function printPathNoParens(path, options, print, args) {
               ),
               shouldAddSoftLine
                 ? concat([
-                    ifBreak(printTrailingComma ? lineComma : ""),
+                    ifBreak(printTrailingComma ? lineComma(options) : ""),
                     softline
                   ])
                 : ""
@@ -835,10 +853,10 @@ function printPathNoParens(path, options, print, args) {
                 indent(
                   concat([
                     options.bracketSpacing ? line : softline,
-                    join(concat([lineComma, line]), grouped)
+                    join(concat([lineComma(options), line]), grouped)
                   ])
                 ),
-                ifBreak(shouldPrintComma(options) ? lineComma : ""),
+                ifBreak(shouldPrintComma(options) ? lineComma(options) : ""),
                 options.bracketSpacing ? line : softline,
                 "}"
               ])
@@ -894,7 +912,7 @@ function printPathNoParens(path, options, print, args) {
         return "{}";
       }
 
-      parts.push(openBrace);
+      parts.push(openBrace(options));
 
       // Babel 6
       if (hasDirectives) {
@@ -917,7 +935,7 @@ function printPathNoParens(path, options, print, args) {
       }
 
       parts.push(comments.printDanglingComments(path, options));
-      parts.push(closeBrace);
+      parts.push(closeBrace(options));
 
       return concat(parts);
     }
@@ -928,10 +946,10 @@ function printPathNoParens(path, options, print, args) {
         if (returnArgumentHasLeadingComment(options, n.argument)) {
           parts.push(
             concat([
-              openParen(false),
+              openParen(options, false),
               indent(concat([hardline, path.call(print, "argument")])),
               hardline,
-              closeParen(false)
+              closeParen(options, false)
             ])
           );
         } else if (
@@ -942,10 +960,10 @@ function printPathNoParens(path, options, print, args) {
           parts.push(
             group(
               concat([
-                ifBreak(openParen(false), " "),
+                ifBreak(openParen(options, false), " "),
                 indent(concat([softline, path.call(print, "argument")])),
                 softline,
-                ifBreak(closeParen(false))
+                ifBreak(closeParen(options, false))
               ])
             )
           );
@@ -1033,7 +1051,10 @@ function printPathNoParens(path, options, print, args) {
                 softline,
                 "extends ",
                 indent(
-                  join(concat([lineComma, line]), path.map(print, "heritage"))
+                  join(
+                    concat([lineComma(options), line]),
+                    path.map(print, "heritage")
+                  )
                 ),
                 " "
               ])
@@ -1071,7 +1092,7 @@ function printPathNoParens(path, options, print, args) {
         ? ";"
         : n.type === "TSInterfaceBody" || n.type === "TSTypeLiteral"
           ? ifBreak(semi, ";")
-          : lineComma;
+          : lineComma(options);
       const fields = [];
       const leftBrace = n.exact ? "{|" : "{";
       const rightBrace = n.exact ? "|}" : "}";
@@ -1158,7 +1179,7 @@ function printPathNoParens(path, options, print, args) {
           ifBreak(
             canHaveTrailingSeparator &&
             (separator !== "," || shouldPrintComma(options))
-              ? separator === "," ? lineComma : separator
+              ? separator === "," ? lineComma(options) : separator
               : ""
           ),
           concat([options.bracketSpacing ? line : softline, rightBrace]),
@@ -1279,7 +1300,7 @@ function printPathNoParens(path, options, print, args) {
                 canHaveTrailingComma &&
                 !needsForcedTrailingComma &&
                 shouldPrintComma(options)
-                  ? lineComma
+                  ? lineComma(options)
                   : ""
               ),
               comments.printDanglingComments(
@@ -1410,7 +1431,7 @@ function printPathNoParens(path, options, print, args) {
       }
 
       const isDeclare = isNodeStartingWithDeclare(n, options);
-      const declarator = isDeclare ? n.kind : printDeclarator(n.kind);
+      const declarator = isDeclare ? n.kind : printDeclarator(n.kind, options);
 
       parts = [
         isDeclare ? "declare " : "",
@@ -1446,9 +1467,9 @@ function printPathNoParens(path, options, print, args) {
       return group(
         concat([
           "with",
-          openParen(n.body),
+          openParen(options, n.body),
           path.call(print, "object"),
-          closeParen(n.body),
+          closeParen(options, n.body),
           adjustClause(n.body, path.call(print, "body"))
         ])
       );
@@ -1457,14 +1478,14 @@ function printPathNoParens(path, options, print, args) {
       const opening = group(
         concat([
           "if",
-          openParen(n.consequent),
+          openParen(options, n.consequent),
           group(
             concat([
               indent(concat([softline, path.call(print, "test")])),
               softline
             ])
           ),
-          closeParen(n.consequent),
+          closeParen(options, n.consequent),
           con
         ])
       );
@@ -1513,7 +1534,7 @@ function printPathNoParens(path, options, print, args) {
         group(
           concat([
             "for",
-            openParen(n.body),
+            openParen(options, n.body),
             group(
               concat([
                 indent(
@@ -1531,7 +1552,7 @@ function printPathNoParens(path, options, print, args) {
                 softline
               ])
             ),
-            closeParen(n.body),
+            closeParen(options, n.body),
             body
           ])
         )
@@ -1541,14 +1562,14 @@ function printPathNoParens(path, options, print, args) {
       return group(
         concat([
           "while",
-          openParen(n.body),
+          openParen(options, n.body),
           group(
             concat([
               indent(concat([softline, path.call(print, "test")])),
               softline
             ])
           ),
-          closeParen(n.body),
+          closeParen(options, n.body),
           adjustClause(n.body, path.call(print, "body"))
         ])
       );
@@ -1597,7 +1618,7 @@ function printPathNoParens(path, options, print, args) {
         parts.push(hardline);
       }
       parts.push("while");
-      parts.push(openParen(false));
+      parts.push(openParen(options, false));
 
       parts.push(
         group(
@@ -1606,7 +1627,7 @@ function printPathNoParens(path, options, print, args) {
             softline
           ])
         ),
-        closeParen(false),
+        closeParen(options, false),
         semi
       );
 
@@ -1665,14 +1686,14 @@ function printPathNoParens(path, options, print, args) {
         group(
           concat([
             "switch",
-            openParen(false),
+            openParen(options, false),
             indent(concat([softline, path.call(print, "discriminant")])),
             softline,
-            closeParen(false)
+            closeParen(options, false)
           ])
         ),
         " ", // TODO: get rid of this space same as for if statements
-        openBrace,
+        openBrace(options),
         n.cases.length > 0
           ? indent(
               concat([
@@ -1697,13 +1718,16 @@ function printPathNoParens(path, options, print, args) {
               ])
             )
           : "",
-        closeBrace
+        closeBrace(options)
       ]);
     case "SwitchCase": {
       if (n.test) {
-        parts.push("case ", path.call(print, "test"), ":");
+        parts.push("case ", path.call(print, "test"));
       } else {
-        parts.push("default:");
+        parts.push("default");
+      }
+      if (!options.lenient) {
+        parts.push(":");
       }
 
       const consequent = n.consequent.filter(
@@ -1965,7 +1989,7 @@ function printPathNoParens(path, options, print, args) {
       }
 
       return concat([
-        openBrace,
+        openBrace(options),
         n.body.length > 0
           ? indent(
               concat([
@@ -1976,7 +2000,7 @@ function printPathNoParens(path, options, print, args) {
               ])
             )
           : comments.printDanglingComments(path, options),
-        closeBrace
+        closeBrace(options)
       ]);
     case "ClassProperty":
     case "TSAbstractClassProperty":
@@ -2849,7 +2873,7 @@ function printPathNoParens(path, options, print, args) {
                 concat([
                   hardline,
                   printArrayItems(path, options, "members", print),
-                  shouldPrintComma(options, "es5") ? lineComma : ""
+                  shouldPrintComma(options, "es5") ? lineComma(options) : ""
                 ])
               ),
               comments.printDanglingComments(
@@ -3207,9 +3231,9 @@ function printArgumentsList(path, options, print) {
       }
 
       anyArgEmptyLine = true;
-      parts.push(lineComma, hardline, hardline);
+      parts.push(lineComma(options), hardline, hardline);
     } else {
-      parts.push(lineComma, line);
+      parts.push(lineComma(options), line);
     }
 
     return concat(parts);
@@ -3231,7 +3255,7 @@ function printArgumentsList(path, options, print) {
         printedExpanded = [
           concat([
             argPath.call(p => print(p, { expandFirstArg: true })),
-            printedArguments.length > 1 ? lineComma : "",
+            printedArguments.length > 1 ? lineComma(options) : "",
             hasEmptyLineFollowingFirstArg ? hardline : line,
             hasEmptyLineFollowingFirstArg ? hardline : ""
           ])
@@ -3248,7 +3272,7 @@ function printArgumentsList(path, options, print) {
     const somePrintedArgumentsWillBreak = printedArguments.some(willBreak);
 
     const maybeTrailingComma = shouldPrintComma(options, "all")
-      ? lineComma
+      ? lineComma(options)
       : "";
 
     return concat([
@@ -3300,7 +3324,7 @@ function printArgumentsList(path, options, print) {
     concat([
       "(",
       indent(concat([softline, concat(printedArguments)])),
-      ifBreak(shouldPrintComma(options, "all") ? lineComma : ""),
+      ifBreak(shouldPrintComma(options, "all") ? lineComma(options) : ""),
       softline,
       ")"
     ]),
@@ -3472,9 +3496,13 @@ function printFunctionParams(path, print, options, expandArg, printTypeParams) {
   return concat([
     typeParams,
     "(",
-    indent(concat([softline, join(concat([lineComma, line]), printed)])),
+    indent(
+      concat([softline, join(concat([lineComma(options), line]), printed)])
+    ),
     ifBreak(
-      canHaveTrailingComma && shouldPrintComma(options, "all") ? lineComma : ""
+      canHaveTrailingComma && shouldPrintComma(options, "all")
+        ? lineComma(options)
+        : ""
     ),
     softline,
     ")"
@@ -3674,10 +3702,10 @@ function printExportDeclaration(path, options, print) {
                 indent(
                   concat([
                     options.bracketSpacing ? line : softline,
-                    join(concat([lineComma, line]), specifiers)
+                    join(concat([lineComma(options), line]), specifiers)
                   ])
                 ),
-                ifBreak(shouldPrintComma(options) ? lineComma : ""),
+                ifBreak(shouldPrintComma(options) ? lineComma(options) : ""),
                 options.bracketSpacing ? line : softline,
                 "}"
               ])
@@ -3782,12 +3810,12 @@ function printTypeParameters(path, options, print, paramsKey) {
       indent(
         concat([
           softline,
-          join(concat([lineComma, line]), path.map(print, paramsKey))
+          join(concat([lineComma(options), line]), path.map(print, paramsKey))
         ])
       ),
       ifBreak(
         options.parser !== "typescript" && shouldPrintComma(options, "all")
-          ? lineComma
+          ? lineComma(options)
           : ""
       ),
       softline,
@@ -3861,7 +3889,10 @@ function printClass(path, options, print) {
         indent(
           concat([
             line,
-            join(concat([lineComma, line]), path.map(print, "implements"))
+            join(
+              concat([lineComma(options), line]),
+              path.map(print, "implements")
+            )
           ])
         )
       )
@@ -3872,7 +3903,11 @@ function printClass(path, options, print) {
     partsGroup.push(
       line,
       "mixins ",
-      group(indent(join(concat([lineComma, line]), path.map(print, "mixins"))))
+      group(
+        indent(
+          join(concat([lineComma(options), line]), path.map(print, "mixins"))
+        )
+      )
     );
   }
 
@@ -4850,9 +4885,8 @@ function printAssignmentRight(rightNode, printedRight, canBreak, options) {
   return concat([" ", printedRight]);
 }
 
-function printDeclarator(kind) {
-  // TODO: check lenient option
-  if (kind === "const") {
+function printDeclarator(kind, options) {
+  if (options.lenient && kind === "const") {
     return "";
   }
   return kind;
@@ -5295,7 +5329,7 @@ function printArrayItems(path, options, printPath, print) {
     printedElements.push(concat(separatorParts));
     printedElements.push(group(print(childPath)));
 
-    separatorParts = [lineComma, line];
+    separatorParts = [lineComma(options), line];
     if (
       childPath.getValue() &&
       sharedUtil.isNextLineEmpty(
