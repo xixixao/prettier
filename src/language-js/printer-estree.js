@@ -39,7 +39,7 @@ const isEmpty = docUtils.isEmpty;
 
 const lineComma = ifBreak("", ",");
 const openBrace = ifBreak("", "{");
-const closeBrace = ifBreak("", "}");
+const closeBrace = ifBreak("", concat([hardline, "}"]));
 const openParen = body =>
   body === false || body.type === "BlockStatement" ? " " : " (";
 const closeParen = body =>
@@ -949,7 +949,7 @@ function printPathNoParens(path, options, print, args) {
       }
 
       parts.push(comments.printDanglingComments(path, options));
-      parts.push(hardline, closeBrace);
+      parts.push(closeBrace);
 
       return concat(parts);
     }
@@ -960,10 +960,10 @@ function printPathNoParens(path, options, print, args) {
         if (returnArgumentHasLeadingComment(options, n.argument)) {
           parts.push(
             concat([
-              " (",
+              openParen(false),
               indent(concat([hardline, path.call(print, "argument")])),
               hardline,
-              ")"
+              closeParen(false)
             ])
           );
         } else if (
@@ -974,10 +974,10 @@ function printPathNoParens(path, options, print, args) {
           parts.push(
             group(
               concat([
-                ifBreak(" (", " "),
+                ifBreak(openParen(false), " "),
                 indent(concat([softline, path.call(print, "argument")])),
                 softline,
-                ifBreak(")")
+                ifBreak(closeParen(false))
               ])
             )
           );
@@ -1754,7 +1754,6 @@ function printPathNoParens(path, options, print, args) {
               ])
             )
           : "",
-        hardline,
         closeBrace
       ]);
     case "SwitchCase": {
@@ -1764,7 +1763,9 @@ function printPathNoParens(path, options, print, args) {
         parts.push("default:");
       }
 
-      const consequent = n.consequent.filter(node => isEmptyStatement(node, n));
+      const consequent = n.consequent.filter(
+        node => !isEmptyStatement(node, n)
+      );
 
       if (consequent.length > 0) {
         const cons = path.call(consequentPath => {
@@ -1772,8 +1773,7 @@ function printPathNoParens(path, options, print, args) {
         }, "consequent");
 
         parts.push(
-          consequent.length === 1 &&
-          (consequent[0].type === "BlockStatement" || options.lenient)
+          consequent.length === 1 && consequent[0].type === "BlockStatement"
             ? concat([" ", cons])
             : indent(concat([hardline, cons]))
         );
@@ -2029,7 +2029,7 @@ function printPathNoParens(path, options, print, args) {
       }
 
       return concat([
-        "{",
+        openBrace,
         n.body.length > 0
           ? indent(
               concat([
@@ -2040,8 +2040,7 @@ function printPathNoParens(path, options, print, args) {
               ])
             )
           : comments.printDanglingComments(path, options),
-        hardline,
-        "}"
+        closeBrace
       ]);
     case "ClassProperty":
     case "TSAbstractClassProperty":
@@ -3230,20 +3229,7 @@ function printStatementSequence(path, options, print) {
       sharedUtil.isNextLineEmpty(text, stmt, options) &&
       !isLastStatement(stmtPath)
     ) {
-      const possiblePreviousBlockStatement =
-        stmt.consequent ||
-        stmt.body ||
-        (stmt.declarations &&
-          stmt.declarations[stmt.declarations.length - 1].init.body);
-      if (
-        !(
-          (possiblePreviousBlockStatement &&
-            possiblePreviousBlockStatement.type === "BlockStatement") ||
-          stmt.type === "SwitchStatement"
-        )
-      ) {
-        parts.push(hardline);
-      }
+      parts.push(hardline);
     }
 
     printed.push(concat(parts));
@@ -3254,10 +3240,12 @@ function printStatementSequence(path, options, print) {
 
 function isEmptyStatement(node, parent) {
   return (
-    node.type === "EmptyStatement" ||
-    (node.type === "BreakStatement" &&
-      !node.label &&
-      parent.type === "SwitchCase")
+    node.type === "EmptyStatement"
+    // TODO: Consider removing break statements from switch
+    //  ||
+    // (node.type === "BreakStatement" &&
+    //   !node.label &&
+    //   parent.type === "SwitchCase")
   );
 }
 
