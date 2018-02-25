@@ -1583,7 +1583,18 @@ function printPathNoParens(path, options, print, args) {
       const printedComments = dangling ? concat([dangling, softline]) : "";
 
       if (!n.init && !n.test && !n.update) {
-        return concat([printedComments, group(concat(["for (;;)", body]))]);
+        return concat([
+          printedComments,
+          group(
+            concat([
+              "for",
+              openParen(options, n.body),
+              ";;",
+              closeParen(options, n.body),
+              body
+            ])
+          )
+        ]);
       }
 
       return concat([
@@ -1654,11 +1665,11 @@ function printPathNoParens(path, options, print, args) {
         concat([
           "for",
           isAwait ? " await" : "",
-          " (",
+          openParen(options, n.body),
           path.call(print, "left"),
           " of ",
           path.call(print, "right"),
-          ")",
+          closeParen(options, n.body),
           adjustClause(n.body, path.call(print, "body"))
         ])
       );
