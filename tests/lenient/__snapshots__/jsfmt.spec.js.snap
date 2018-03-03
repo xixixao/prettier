@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`arrows.js 1`] = `
+[1, 2, 3].forEach(x => {
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x);
+});
+
+[1, 2, 3].forEach(x =>
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x),
+);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[1, 2, 3].forEach(x =>
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x);
+)
+
+[1, 2, 3].forEach(x =>
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x)
+)
+
+`;
+
+exports[`classes.js 1`] = `
+class X extends B {
+  other() {
+    return da;
+  }
+
+  method() {
+    return bla;
+  }
+
+  m = () => {
+    b();
+  }
+}
+
+const bla = 5;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X extends B
+  other()
+    return da
+
+  method()
+    return bla
+
+  m = () =>
+    b();
+
+bla = 5
+
+`;
+
+exports[`loops.js 1`] = `
+while (x) {
+  a()
+}
+
+for (let i = 0; i < cubes.length; i++) {
+  alert(i, cubes[i]);
+}
+
+switch (x) {
+  case 'a': a(); break;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+while x
+  a()
+
+for let i = 0; i < cubes.length; i++
+  alert(i, cubes[i])
+
+switch x
+  case "a"
+    a()
+    break
+
+
+`;
+
+exports[`trycatch.js 1`] = `
+try {} catch (x) {} finally {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+try {} catch (x) {} finally {}
+
+`;
