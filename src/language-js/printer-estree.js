@@ -3025,7 +3025,7 @@ function printStatementSequence(path, options, print) {
   const isClass = bodyNode.type === "ClassBody";
 
   const isSingleStatementInExpressionBlock =
-    options.lenient && isOnlyStatementInExpressionBlock(path);
+    options.lenient && isSingleExpressionStatementInExpressionBlock(path);
 
   path.map((stmtPath, i) => {
     const stmt = stmtPath.getValue();
@@ -4990,7 +4990,7 @@ function isLastStatement(path) {
   return body && body[body.length - 1] === node;
 }
 
-function isOnlyStatementInExpressionBlock(blockPath) {
+function isSingleExpressionStatementInExpressionBlock(blockPath) {
   const parent = blockPath.getParentNode();
   if (
     parent == null ||
@@ -5000,10 +5000,12 @@ function isOnlyStatementInExpressionBlock(blockPath) {
     return false;
   }
   const block = blockPath.getNode();
-  const body = (block.body || block.consequent).filter(
+  const statements = (block.body || block.consequent).filter(
     stmt => stmt.type !== "EmptyStatement"
   );
-  return body && body.length === 1;
+  return (
+    statements.length === 1 && statements[0].type === "ExpressionStatement"
+  );
 }
 
 function hasLeadingComment(node) {
