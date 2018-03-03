@@ -19,6 +19,7 @@ const join = docBuilders.join;
 const line = docBuilders.line;
 const hardline = docBuilders.hardline;
 const softline = docBuilders.softline;
+const singleline = docBuilders.singleline;
 const literalline = docBuilders.literalline;
 const group = docBuilders.group;
 const indent = docBuilders.indent;
@@ -45,10 +46,8 @@ function openBrace(options) {
   return !options.lenient ? "{" : ifBreak("", "{");
 }
 
-function closeBrace(options) {
-  return !options.lenient
-    ? concat([hardline, "}"])
-    : ifBreak("", concat([hardline, "}"]));
+function closeBrace(options, alwaysBreak) {
+  return !options.lenient ? concat([hardline, "}"]) : ifBreak(singleline, "}");
 }
 
 function openParen(options, body) {
@@ -907,7 +906,9 @@ function printPathNoParens(path, options, print, args) {
           parent.type === "ForStatement" ||
           parent.type === "WhileStatement" ||
           parent.type === "DoWhileStatement" ||
-          (parent.type === "CatchClause" && !parentParent.finalizer))
+          (parent.type === "CatchClause" && !parentParent.finalizer) ||
+          (options.lenient &&
+            (parent.type === "TryStatement" || parent.type === "CatchClause")))
       ) {
         return "{}";
       }
@@ -934,8 +935,12 @@ function printPathNoParens(path, options, print, args) {
         parts.push(indent(concat([hardline, naked])));
       }
 
+      const isParentExpression =
+        parent.type === "ArrowFunctionExpression" ||
+        parent.type === "FunctionExpression";
+
       parts.push(comments.printDanglingComments(path, options));
-      parts.push(closeBrace(options));
+      parts.push(closeBrace(options, isParentExpression));
 
       return concat(parts);
     }
@@ -3019,6 +3024,9 @@ function printStatementSequence(path, options, print) {
   const bodyNode = path.getNode();
   const isClass = bodyNode.type === "ClassBody";
 
+  const isSingleStatementInExpressionBlock =
+    options.lenient && isOnlyStatementInExpressionBlock(path);
+
   path.map((stmtPath, i) => {
     const stmt = stmtPath.getValue();
 
@@ -3068,11 +3076,15 @@ function printStatementSequence(path, options, print) {
       }
     }
 
+    if (isSingleStatementInExpressionBlock && stmt.type !== "ReturnStatement") {
+      parts.push(";");
+    }
+
     if (
       sharedUtil.isNextLineEmpty(text, stmt, options) &&
       !isLastStatement(stmtPath)
     ) {
-      parts.push(hardline);
+      parts.push(options.lenient ? singleline : hardline);
     }
 
     printed.push(concat(parts));
@@ -4976,6 +4988,22 @@ function isLastStatement(path) {
     stmt => stmt.type !== "EmptyStatement"
   );
   return body && body[body.length - 1] === node;
+}
+
+function isOnlyStatementInExpressionBlock(blockPath) {
+  const parent = blockPath.getParentNode();
+  if (
+    parent == null ||
+    (parent.type !== "ArrowFunctionExpression" &&
+      parent.type !== "FunctionExpression")
+  ) {
+    return false;
+  }
+  const block = blockPath.getNode();
+  const body = (block.body || block.consequent).filter(
+    stmt => stmt.type !== "EmptyStatement"
+  );
+  return body && body.length === 1;
 }
 
 function hasLeadingComment(node) {

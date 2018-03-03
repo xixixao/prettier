@@ -5,7 +5,8 @@ const ENABLE_COVERAGE = !!process.env.CI;
 module.exports = {
   setupFiles: ["<rootDir>/tests_config/run_spec.js"],
   snapshotSerializers: ["<rootDir>/tests_config/raw-serializer.js"],
-  testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$",
+  // testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$",
+  testRegex: "tests/lenient/jsfmt\\.spec\\.js$",
   testPathIgnorePatterns: ["tests/new_react", "tests/more_react"],
   collectCoverage: ENABLE_COVERAGE,
   collectCoverageFrom: ["src/**/*.js", "index.js", "!<rootDir>/node_modules/"],

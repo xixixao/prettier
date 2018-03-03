@@ -461,8 +461,9 @@ function printDocToString(doc, options) {
                 if (out.length > 0) {
                   // Trim whitespace at the end of line
                   while (
-                    out.length > 0 &&
-                    out[out.length - 1].match(/^[^\S\n]*$/)
+                    (out.length > 0 &&
+                      out[out.length - 1].match(/^[^\S\n]*$/)) ||
+                    (doc.single && out[out.length - 1].match(/^\n\s*$/))
                   ) {
                     out.pop();
                   }
