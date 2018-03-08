@@ -45,7 +45,11 @@ class X extends B {
   }
 }
 
-const bla = 5;
+f(class X{
+  m(){
+    bla()
+  }
+})
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class X extends B
   other()
@@ -57,7 +61,11 @@ class X extends B
   m = () =>
     b();
 
-bla = 5
+f(
+  class X
+    m()
+      bla();
+)
 
 `;
 

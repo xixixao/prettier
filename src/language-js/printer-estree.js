@@ -20,6 +20,7 @@ const line = docBuilders.line;
 const hardline = docBuilders.hardline;
 const softline = docBuilders.softline;
 const singleline = docBuilders.singleline;
+const singleSoftLine = docBuilders.singleSoftLine;
 const literalline = docBuilders.literalline;
 const group = docBuilders.group;
 const indent = docBuilders.indent;
@@ -43,11 +44,20 @@ function lineComma(options) {
 }
 
 function openBrace(options) {
-  return !options.lenient ? "{" : ifBreak("", "{");
+  return !options.lenient ? "{" : "";
 }
 
-function closeBrace(options, alwaysBreak) {
-  return !options.lenient ? concat([hardline, "}"]) : ifBreak(singleline, "}");
+function closeBrace(options) {
+  return !options.lenient ? concat([hardline, "}"]) : singleline;
+}
+
+function closeSoftBrace(options, rightBrace) {
+  return concat([
+    !options.lenient
+      ? options.bracketSpacing ? line : softline
+      : singleSoftLine,
+    rightBrace
+  ]);
 }
 
 function openParen(options, body) {
@@ -935,12 +945,8 @@ function printPathNoParens(path, options, print, args) {
         parts.push(indent(concat([hardline, naked])));
       }
 
-      const isParentExpression =
-        parent.type === "ArrowFunctionExpression" ||
-        parent.type === "FunctionExpression";
-
       parts.push(comments.printDanglingComments(path, options));
-      parts.push(closeBrace(options, isParentExpression));
+      parts.push(closeBrace(options));
 
       return concat(parts);
     }
@@ -1187,7 +1193,7 @@ function printPathNoParens(path, options, print, args) {
               ? separator === "," ? lineComma(options) : separator
               : ""
           ),
-          concat([options.bracketSpacing ? line : softline, rightBrace]),
+          closeSoftBrace(options, rightBrace),
           printOptionalToken(path),
           printTypeAnnotation(path, options, print)
         ]);
@@ -3230,6 +3236,7 @@ function shouldGroupFirstArg(args) {
 
 function printArgumentsList(path, options, print) {
   const args = path.getValue().arguments;
+  debugger;
 
   if (args.length === 0) {
     return concat([
@@ -3308,7 +3315,10 @@ function printArgumentsList(path, options, print) {
               concat(["(", concat(printedExpanded)])
             ),
             somePrintedArgumentsWillBreak
-              ? concat([ifBreak(maybeTrailingComma), softline])
+              ? concat([
+                  ifBreak(maybeTrailingComma),
+                  !options.lenient ? softline : singleSoftLine
+                ])
               : "",
             ")"
           ]),
@@ -3348,7 +3358,7 @@ function printArgumentsList(path, options, print) {
       "(",
       indent(concat([softline, concat(printedArguments)])),
       ifBreak(shouldPrintComma(options, "all") ? lineComma(options) : ""),
-      softline,
+      singleSoftLine,
       ")"
     ]),
     { shouldBreak: printedArguments.some(willBreak) || anyArgEmptyLine }
@@ -3729,8 +3739,7 @@ function printExportDeclaration(path, options, print) {
                   ])
                 ),
                 ifBreak(shouldPrintComma(options) ? lineComma(options) : ""),
-                options.bracketSpacing ? line : softline,
-                "}"
+                closeSoftBrace(options, "}")
               ])
             )
           : ""

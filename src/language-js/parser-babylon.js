@@ -2,36 +2,9 @@
 
 const createError = require("../common/parser-create-error");
 
-function parse(text, parsers, opts) {
+function parse(text, parsers, opts, babylonOptions) {
   // Inline the require to avoid loading all the JS if we don't use it
-  const babylon = require("babylon");
-
-  const babylonOptions = {
-    sourceType: "module",
-    allowImportExportEverywhere: true,
-    allowReturnOutsideFunction: true,
-    plugins: [
-      "jsx",
-      "flow",
-      "doExpressions",
-      "objectRestSpread",
-      "decorators",
-      "classProperties",
-      "exportDefaultFrom",
-      "exportNamespaceFrom",
-      "asyncGenerators",
-      "functionBind",
-      "functionSent",
-      "dynamicImport",
-      "numericSeparator",
-      "importMeta",
-      "optionalCatchBinding",
-      "optionalChaining",
-      "classPrivateProperties",
-      "pipelineOperator",
-      "nullishCoalescingOperator"
-    ]
-  };
+  const babylon = require("babylon-lenient");
 
   const parseMethod =
     opts && opts.parser === "json" ? "parseExpression" : "parse";
