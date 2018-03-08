@@ -12,4 +12,8 @@ class X extends B {
   }
 }
 
-const bla = 5;
+f(class X{
+  m(){
+    bla()
+  }
+})
