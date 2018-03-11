@@ -41,17 +41,17 @@ function run_spec(dirname, parsers, options) {
         rangeEnd: rangeEnd
       });
       const output = prettyprint(source, path, mergedOptions);
-      test(`${filename} - ${mergedOptions.parser}-verify`, () => {
+      test(`${filename} - ${getParserName(
+        mergedOptions.parser
+      )}-verify`, () => {
         expect(
           raw(source + "~".repeat(mergedOptions.printWidth) + "\n" + output)
         ).toMatchSnapshot(filename);
       });
 
-      parsers.slice(1).forEach(parserName => {
-        test(`${filename} - ${parserName}-verify`, () => {
-          const verifyOptions = Object.assign(mergedOptions, {
-            parser: parserName
-          });
+      parsers.slice(1).forEach(parser => {
+        test(`${filename} - ${getParserName(parser)}-verify`, () => {
+          const verifyOptions = Object.assign(mergedOptions, { parser });
           const verifyOutput = prettyprint(source, path, verifyOptions);
           expect(output).toEqual(verifyOutput);
         });
@@ -129,6 +129,10 @@ function prettyprint(src, filename, options) {
 
 function read(filename) {
   return fs.readFileSync(filename, "utf8");
+}
+
+function getParserName(parser) {
+  return typeof parser === "string" ? parser : "custom parser";
 }
 
 /**

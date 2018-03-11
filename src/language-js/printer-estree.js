@@ -1684,7 +1684,7 @@ function printPathNoParens(path, options, print, args) {
 
       return concat([
         path.call(print, "label"),
-        ": ",
+        options.lenient ? ":\n" : ": ",
         path.call(print, "body")
       ]);
     case "TryStatement":
@@ -3236,7 +3236,6 @@ function shouldGroupFirstArg(args) {
 
 function printArgumentsList(path, options, print) {
   const args = path.getValue().arguments;
-  debugger;
 
   if (args.length === 0) {
     return concat([
