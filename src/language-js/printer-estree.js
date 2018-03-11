@@ -1741,7 +1741,7 @@ function printPathNoParens(path, options, print, args) {
 
       return concat([
         path.call(print, "label"),
-        ": ",
+        options.lenient ? ":\n" : ": ",
         path.call(print, "body")
       ]);
     case "TryStatement":

@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`arrows.js 1`] = `
+const x = y => {
+  x * square(x);
+}
+
+const z = y =>
+  x * square(x);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const x = y => {
+  x * square(x);
+};
+
+const z = y => {
+  x * square(x);
+};
+
+`;
+
 exports[`classes.js 1`] = `
 class X extends B
   other()
@@ -14,5 +32,44 @@ class X extends B {
 }
 
 const bla = 5;
+
+`;
+
+exports[`labels.js 1`] = `
+loop:
+for (;;)
+  break
+
+loop: X = 42;
+
+b:
+  | A
+  | B = 1;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+loop: for (;;) {
+  break;
+}
+
+const loop: X = 42;
+
+const b: A | B = 1;
+
+`;
+
+exports[`objects.js 1`] = `
+math = {
+  root: Math.sqrt
+  square: square
+  cube: x =>
+    x * sque(x);
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const math = {
+  root: Math.sqrt,
+  square: square,
+  cube: x => {
+    x * sque(x);
+  }
+};
 
 `;
