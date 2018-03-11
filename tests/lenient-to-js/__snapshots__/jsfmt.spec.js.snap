@@ -35,6 +35,13 @@ const bla = 5;
 
 `;
 
+exports[`destructure.js 1`] = `
+const {x} = y
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const {x} = y;
+
+`;
+
 exports[`labels.js 1`] = `
 loop:
 for (;;)

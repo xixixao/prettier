@@ -1486,7 +1486,14 @@ function printPathNoParens(path, options, print, args) {
       }
 
       const isDeclare = isNodeStartingWithDeclare(n, options);
-      const declarator = isDeclare ? n.kind : printDeclarator(n.kind, options);
+      const declarator = isDeclare
+        ? n.kind
+        : options.lenient &&
+          n.kind === "const" &&
+          n.declarations.length === 1 &&
+          n.declarations[0].id.type === "Identifier"
+          ? ""
+          : n.kind;
 
       parts = [
         isDeclare ? "declare " : "",
@@ -5192,13 +5199,6 @@ function printAssignmentRight(leftNode, rightNode, printedRight, options) {
   }
 
   return concat([" ", printedRight]);
-}
-
-function printDeclarator(kind, options) {
-  if (options.lenient && kind === "const") {
-    return "";
-  }
-  return kind;
 }
 
 function printAssignment(
