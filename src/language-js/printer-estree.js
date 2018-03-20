@@ -417,7 +417,7 @@ function printPathNoParens(path, options, print, args) {
       return printAssignment(
         n.left,
         path.call(print, "left"),
-        concat([" ", printAssignmentOperator(n.left, n.operator, options)]),
+        concat([" ", printAssignmentOperator(n.operator, options)]),
         n.right,
         path.call(print, "right"),
         options
@@ -1517,10 +1517,13 @@ function printPathNoParens(path, options, print, args) {
       return group(concat(parts));
     }
     case "VariableDeclarator":
+      const parentNode = path.getParentNode();
+      const eqOperator =
+        !options.lenient || parentNode.kind === "const" ? " =" : " :=";
       return printAssignment(
         n.id,
         concat([path.call(print, "id"), path.call(print, "typeParameters")]),
-        " =",
+        eqOperator,
         n.init,
         n.init && path.call(print, "init"),
         options
@@ -5223,7 +5226,7 @@ function printAssignment(
   return group(concat([printedLeft, operator, printed]));
 }
 
-function printAssignmentOperator(left, operator, options) {
+function printAssignmentOperator(operator, options) {
   return options.lenient && operator === "=" ? ":=" : operator;
 }
 
