@@ -1,18 +1,32 @@
 console.log(
   require(".").format(
+    // // NOTE: FIX:
     `
-    class X extends B
-      other()
-        return da
-
-      method()
-        return bla
-
-    bla = 5
-
-    for fn of functions
-      fn()
+() =>
+  {
+    a: b
+    d: e
+  }
     `,
+    //     `
+    // function f()
+    //   return
+    //     3 + 5
+    // `,
+
+    // `
+    // class X extends B
+    //   other()
+    //     return da
+    //
+    //   method()
+    //     return bla
+    //
+    // bla = 5
+    //
+    // for fn of functions
+    //   fn()
+    // `,
     //     `
     // // Assignment:
     // let number = 42
