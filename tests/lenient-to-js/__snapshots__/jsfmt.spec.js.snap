@@ -1,20 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`arrows.js 1`] = `
-const x = y => {
+g = x =>
   x * square(x);
-}
 
-const z = y =>
-  x * square(x);
+() => {}
+
+() => ({})
+
+() => {a: 3}
+
+bare = () => {;}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const x = y => {
+const g = x => {
   x * square(x);
 };
 
-const z = y => {
-  x * square(x);
-};
+() => ({});
+
+() => ({});
+
+() => ({a: 3});
+
+const bare = () => {};
 
 `;
 
@@ -35,6 +43,13 @@ const bla = 5;
 
 `;
 
+exports[`declarations.js 1`] = `
+let x := 3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+let x = 3;
+
+`;
+
 exports[`destructure.js 1`] = `
 const {x} = y
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,8 +58,7 @@ const {x} = y;
 `;
 
 exports[`labels.js 1`] = `
-loop:
-for (;;)
+;loop: for (;;)
   break
 
 loop: X = 42;

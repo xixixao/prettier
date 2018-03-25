@@ -728,6 +728,7 @@ function printPathNoParens(path, options, print, args) {
       // a => a ? a : a
       // a <= a ? a : a
       const shouldAddParens =
+        !options.lenient &&
         n.body.type === "ConditionalExpression" &&
         !privateUtil.startsWithNoLookaheadToken(
           n.body,
@@ -952,6 +953,13 @@ function printPathNoParens(path, options, print, args) {
           (options.lenient &&
             (parent.type === "TryStatement" || parent.type === "CatchClause")))
       ) {
+        if (
+          options.lenient &&
+          !options.lenientCompat &&
+          parent.type === "ArrowFunctionExpression"
+        ) {
+          return "{;}";
+        }
         return "{}";
       }
 
@@ -1489,6 +1497,7 @@ function printPathNoParens(path, options, print, args) {
       const declarator = isDeclare
         ? n.kind
         : options.lenient &&
+          !options.lenientCompat &&
           n.kind === "const" &&
           n.declarations.length === 1 &&
           n.declarations[0].id.type === "Identifier"
@@ -1519,7 +1528,9 @@ function printPathNoParens(path, options, print, args) {
     case "VariableDeclarator":
       const parentNode = path.getParentNode();
       const eqOperator =
-        !options.lenient || parentNode.kind === "const" ? " =" : " :=";
+        !options.lenient || options.lenientCompat || parentNode.kind === "const"
+          ? " ="
+          : " :=";
       return printAssignment(
         n.id,
         concat([path.call(print, "id"), path.call(print, "typeParameters")]),
@@ -1750,8 +1761,9 @@ function printPathNoParens(path, options, print, args) {
       }
 
       return concat([
+        options.lenient ? ";" : "",
         path.call(print, "label"),
-        options.lenient ? ":\n" : ": ",
+        ": ",
         path.call(print, "body")
       ]);
     case "TryStatement":
