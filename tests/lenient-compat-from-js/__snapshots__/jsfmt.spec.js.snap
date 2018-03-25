@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`arrows.js 1`] = `
+ob.forEach(x => ({
+  a: "hey",
+}));
+
+const h = () => {};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ob.forEach(x => ({
+  a: "hey"
+}))
+
+const h = () => {}
+
+`;

@@ -1,6 +1,10 @@
-const x = y => {
+g = x =>
   x * square(x);
-}
 
-const z = y =>
-  x * square(x);
+() => {}
+
+() => ({})
+
+() => {a: 3}
+
+bare = () => {;}

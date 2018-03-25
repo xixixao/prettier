@@ -72,6 +72,7 @@ function needsParens(path, options) {
   if (
     (parent.type === "ArrowFunctionExpression" &&
     parent.body === node &&
+    (!options.lenient || options.lenientCompat) &&
     node.type !== "SequenceExpression" && // these have parens added anyway
       util.startsWithNoLookaheadToken(
         node,

@@ -1,5 +1,6 @@
 function parser(text, { babylon }) {
-  return babylon(text, {}, {}, { plugins: ["lenient", "flow", "jsx"] });
+  const plugins = ["lenient", "lenientCompat", "flow", "jsx"];
+  return babylon(text, {}, {}, { plugins });
 }
 
 run_spec(__dirname, [parser], {

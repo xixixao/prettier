@@ -14,6 +14,10 @@ f(x =>{
     g();
   }
 })
+
+const bare = () => {};
+
+const obj = () => ({});
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [1, 2, 3].forEach(x =>
   fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x);
@@ -27,6 +31,10 @@ f(x =>
   while true
     g()
 )
+
+bare = () => {;}
+
+obj = () => {}
 
 `;
 
@@ -75,6 +83,8 @@ const x = 1, y = 2;
 const {z} = 3;
 const {w} = 4;
 const u = 5;
+
+let x = 3;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const x = 1,
   y = 2
@@ -83,6 +93,8 @@ const {z} = 3
 const {w} = 4
 u = 5
 
+let x := 3
+
 `;
 
 exports[`labels.js 1`] = `
@@ -90,8 +102,7 @@ loop: for (;;) {
   break;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-loop:
-for ;;
+;loop: for ;;
   break
 
 
@@ -113,7 +124,7 @@ switch (x) {
 while x
   a()
 
-for let i = 0; i < cubes.length; i++
+for let i := 0; i < cubes.length; i++
   alert(i, cubes[i])
 
 switch x

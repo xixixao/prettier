@@ -1,5 +1,4 @@
-loop:
-for (;;)
+;loop: for (;;)
   break
 
 loop: X = 42;
