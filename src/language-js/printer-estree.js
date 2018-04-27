@@ -1576,14 +1576,15 @@ function printPathNoParens(path, options, print, args) {
                 comment.trailing && !handleComments.isBlockComment(comment)
             )) ||
           needsHardlineAfterDanglingComment(n);
+        const space = options.lenient ? "" : " ";
         const elseOnSameLine =
           n.consequent.type === "BlockStatement" && !commentOnOwnLine;
-        parts.push(elseOnSameLine ? " " : hardline);
+        parts.push(elseOnSameLine ? space : hardline);
 
         if (hasDanglingComments(n)) {
           parts.push(
             comments.printDanglingComments(path, options, true),
-            commentOnOwnLine ? hardline : " "
+            commentOnOwnLine ? hardline : space
           );
         }
 

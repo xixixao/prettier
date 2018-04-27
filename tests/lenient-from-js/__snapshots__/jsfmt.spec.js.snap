@@ -77,6 +77,38 @@ f(
 
 `;
 
+exports[`conditions.js 1`] = `
+if (x) {
+  f();
+} else {
+  g();
+}
+
+if (aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh) {
+  f();
+} else if (aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh) {
+  g();
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if x
+  f()
+else
+  g()
+
+if
+  aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+  asdhousadhsaoudhsoaudhsaoudh
+
+  f()
+else if
+  aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+  asdhousadhsaoudhsoaudhsaoudh
+
+  g()
+
+
+`;
+
 exports[`declarations.js 1`] = `
 const x = 1, y = 2;
 
