@@ -68,13 +68,13 @@ function closeParen(options, body) {
   return shouldPrintParens(options, body) ? ")" : "";
 }
 
-function blockArgument(path, print, options, body, name) {
+function blockArgument(options, body, argument) {
   const usesParens = shouldPrintParens(options, body);
   const newLine = usesParens ? softline : "";
-  const argument = indent(concat([newLine, path.call(print, name)]));
+  const indented = indent(concat([newLine, argument]));
   return concat([
     openParen(options, body),
-    group(concat([usesParens ? argument : indent(argument), newLine])),
+    group(concat([usesParens ? indented : indent(indented), newLine])),
     closeParen(options, body)
   ]);
 }
@@ -1554,7 +1554,7 @@ function printPathNoParens(path, options, print, args) {
       return group(
         concat([
           "with",
-          blockArgument(path, print, options, n.body, "body"),
+          blockArgument(options, n.body, path.call(print, "object")),
           adjustClause(n.body, path.call(print, "body"))
         ])
       );
@@ -1563,7 +1563,7 @@ function printPathNoParens(path, options, print, args) {
       const opening = group(
         concat([
           "if",
-          blockArgument(path, print, options, n.consequent, "test"),
+          blockArgument(options, n.consequent, path.call(print, "test")),
           con
         ])
       );
@@ -1637,25 +1637,19 @@ function printPathNoParens(path, options, print, args) {
         group(
           concat([
             "for",
-            openParen(options, n.body),
-            group(
+            blockArgument(
+              options,
+              n.body,
               concat([
-                indent(
-                  concat([
-                    softline,
-                    path.call(print, "init"),
-                    ";",
-                    line,
-                    path.call(print, "test"),
-                    ";",
-                    line,
-                    path.call(print, "update")
-                  ])
-                ),
-                softline
+                path.call(print, "init"),
+                ";",
+                line,
+                path.call(print, "test"),
+                ";",
+                line,
+                path.call(print, "update")
               ])
             ),
-            closeParen(options, n.body),
             body
           ])
         )
@@ -1665,7 +1659,7 @@ function printPathNoParens(path, options, print, args) {
       return group(
         concat([
           "while",
-          blockArgument(path, print, options, n.body, "test"),
+          blockArgument(options, n.body, path.call(print, "test")),
           adjustClause(n.body, path.call(print, "body"))
         ])
       );
@@ -1715,7 +1709,7 @@ function printPathNoParens(path, options, print, args) {
       }
       parts.push(
         "while",
-        blockArgument(path, print, options, n.body, "test"),
+        blockArgument(options, n.body, path.call(print, "test")),
         semi
       );
       return concat(parts);
@@ -1774,7 +1768,7 @@ function printPathNoParens(path, options, print, args) {
         group(
           concat([
             "switch",
-            blockArgument(path, print, options, false, "discriminant")
+            blockArgument(options, false, path.call(print, "discriminant"))
           ])
         ),
         " ", // TODO: get rid of this space same as for if statements
