@@ -19,6 +19,9 @@ function parse(text, parsers, opts, babylonOptions) {
         Object.assign({}, babylonOptions, { strictMode: false })
       );
     } catch (nonStrictError) {
+      if (nonStrictError.loc == null) {
+        throw nonStrictError;
+      }
       throw createError(
         // babel error prints (l:c) with cols that are zero indexed
         // so we need our custom error
