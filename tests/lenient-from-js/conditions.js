@@ -9,3 +9,8 @@ if (aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoau
 } else if (aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh) {
   g();
 }
+
+
+if (f(aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh)) {
+  f();
+}
