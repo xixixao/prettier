@@ -22,6 +22,44 @@ const h = () => {};
 
 `;
 
+exports[`conditions.js 1`] = `
+
+if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+    asdhousadhsaoudhsoaudhsaoudh
+  f()
+else if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+    asdhousadhsaoudhsoaudhsaoudh
+  g()
+
+if f(
+      aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+        asdhousadhsaoudhsoaudhsaoudh
+    )
+  f()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if (
+  aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+  asdhousadhsaoudhsoaudhsaoudh
+) {
+  f();
+} else if (
+  aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+  asdhousadhsaoudhsoaudhsaoudh
+) {
+  g();
+}
+
+if (
+  f(
+    aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+      asdhousadhsaoudhsoaudhsaoudh
+  )
+) {
+  f();
+}
+
+`;
+
 exports[`declarations.js 1`] = `
 const x = 3;
 let n = 0;
