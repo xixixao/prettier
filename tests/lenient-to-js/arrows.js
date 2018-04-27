@@ -13,3 +13,7 @@ g = x =>
   }
 
 bare = () => {;}
+
+editor.observeGrammar((x) =>
+  f();
+);

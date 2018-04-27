@@ -16,6 +16,10 @@ g = x =>
   }
 
 bare = () => {;}
+
+editor.observeGrammar((x) =>
+  f();
+);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const g = x => {
   x * square(x);
@@ -33,6 +37,10 @@ const g = x => {
 
 const bare = () => {};
 
+editor.observeGrammar(x => {
+  f();
+});
+
 `;
 
 exports[`classes.js 1`] = `
@@ -49,6 +57,44 @@ class X extends B {
 }
 
 const bla = 5;
+
+`;
+
+exports[`conditions.js 1`] = `
+
+if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+    asdhousadhsaoudhsoaudhsaoudh
+  f()
+else if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+    asdhousadhsaoudhsoaudhsaoudh
+  g()
+
+if f(
+      aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+        asdhousadhsaoudhsoaudhsaoudh
+    )
+  f()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if (
+  aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+  asdhousadhsaoudhsoaudhsaoudh
+) {
+  f();
+} else if (
+  aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+  asdhousadhsaoudhsoaudhsaoudh
+) {
+  g();
+}
+
+if (
+  f(
+    aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+      asdhousadhsaoudhsoaudhsaoudh
+  )
+) {
+  f();
+}
 
 `;
 
