@@ -1214,7 +1214,7 @@ function printPathNoParens(path, options, print, args) {
         if (
           sharedUtil.isNextLineEmpty(options.originalText, prop.node, options)
         ) {
-          separatorParts.push(hardline);
+          parts.push(options.lenient ? singleline : hardline);
         }
         return result;
       });
