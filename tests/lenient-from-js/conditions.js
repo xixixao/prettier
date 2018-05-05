@@ -10,7 +10,7 @@ if (aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoau
   g();
 }
 
-
 if (f(aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh)) {
-  f();
+  gagaga();
 }
+rarara();
