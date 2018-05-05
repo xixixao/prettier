@@ -3089,13 +3089,13 @@ function printStatementSequence(path, options, print) {
       sharedUtil.isNextLineEmpty(text, stmt, options) &&
       !isLastStatement(stmtPath)
     ) {
-      parts.push(options.lenient ? singleline : hardline);
+      parts.push(hardline);
     }
 
     printed.push(concat(parts));
   });
 
-  return join(hardline, printed);
+  return join(options.lenient ? singleline : hardline, printed);
 }
 
 function isEmptyStatement(node, parent) {

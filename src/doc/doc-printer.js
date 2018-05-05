@@ -207,6 +207,7 @@ function printDocToString(doc, options) {
   const out = [];
   let shouldRemeasure = false;
   let lineSuffix = [];
+  let isPrevLineSingle = false;
 
   while (cmds.length !== 0) {
     const x = cmds.pop();
@@ -463,7 +464,11 @@ function printDocToString(doc, options) {
                   while (
                     (out.length > 0 &&
                       out[out.length - 1].match(/^[^\S\n]*$/)) ||
-                    (doc.single && out[out.length - 1].match(/^\n\s*$/))
+                    (doc.single &&
+                      out[out.length - 1].match(/^\n\s*$/) &&
+                      (isPrevLineSingle ||
+                        (out.length > 1 &&
+                          out[out.length - 2].match(/\n\s*$/))))
                   ) {
                     out.pop();
                   }
@@ -480,6 +485,9 @@ function printDocToString(doc, options) {
                     );
                   }
                 }
+                // This allows singleline to keep a blank line in case
+                // previous line is not a singleline
+                isPrevLineSingle = doc.single;
 
                 out.push(newLine + ind.value);
                 pos = ind.length;
