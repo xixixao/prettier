@@ -77,6 +77,29 @@ f(
 
 `;
 
+exports[`comments.js 1`] = `
+if (a) {
+  x;
+}
+// right after you
+
+if (a) {
+  x;
+}
+
+// single space above
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if a
+  x
+// right after you
+
+if a
+  x
+
+// single space above
+
+`;
+
 exports[`conditions.js 1`] = `
 if (x) {
   f();
