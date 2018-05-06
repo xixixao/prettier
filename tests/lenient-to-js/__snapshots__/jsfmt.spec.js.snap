@@ -60,6 +60,34 @@ const bla = 5;
 
 `;
 
+exports[`comments.js 1`] = `
+x = () =>
+  // unreachable
+  return null
+
+for x of y
+  // bla
+  z()
+
+if a
+  x // blab
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const x = () => {
+  // unreachable
+  return null;
+};
+
+for (const x of y) {
+  // bla
+  z();
+}
+
+if (a) {
+  x;
+} // blab
+
+`;
+
 exports[`conditions.js 1`] = `
 
 if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
