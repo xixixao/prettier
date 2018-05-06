@@ -74,6 +74,9 @@ if f(
         asdhousadhsaoudhsoaudhsaoudh
     )
   f()
+
+if (x) && y
+  kolo()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if (
   aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
@@ -94,6 +97,10 @@ if (
   )
 ) {
   f();
+}
+
+if (x && y) {
+  kolo();
 }
 
 `;

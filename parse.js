@@ -2,11 +2,8 @@ console.log(
   require(".").format(
     // // NOTE: FIX:
     `
-() =>
-  {
-    a: b
-    d: e
-  }
+if (x) && c
+  f()
     `,
     //     `
     // function f()
