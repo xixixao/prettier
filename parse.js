@@ -2,8 +2,9 @@ console.log(
   require(".").format(
     // // NOTE: FIX:
     `
-if (x) && c
-  f()
+for x of y
+  // bla
+  z()
     `,
     //     `
     // function f()

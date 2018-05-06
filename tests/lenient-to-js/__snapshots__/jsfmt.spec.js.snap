@@ -83,8 +83,8 @@ for (const x of y) {
 }
 
 if (a) {
-  x;
-} // blab
+  x; // blab
+}
 
 `;
 
