@@ -11,3 +11,6 @@ if f(
         asdhousadhsaoudhsoaudhsaoudh
     )
   f()
+
+if (x) && y
+  kolo()
