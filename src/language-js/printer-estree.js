@@ -80,7 +80,11 @@ function blockArgument(options, body, argument) {
 }
 
 function shouldPrintParens(options, body) {
-  return !options.lenient || (body !== false && body.type !== "BlockStatement");
+  return (
+    !options.lenient ||
+    (body !== false &&
+      (body.type !== "BlockStatement" || hasLeadingComment(body)))
+  );
 }
 
 function shouldPrintComma(options, level) {
