@@ -485,8 +485,8 @@ function printDocToString(doc, options) {
                     );
                   }
                 }
-                // This allows singleline to keep a blank line in case
-                // previous line is not a singleline
+                // This allows singleHardLine to keep a blank line in case
+                // previous line is not a singleHardLine
                 isPrevLineSingle = doc.single;
 
                 out.push(newLine + ind.value);

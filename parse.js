@@ -2,9 +2,10 @@ console.log(
   require(".").format(
     // // NOTE: FIX:
     `
-for x of y
-  // bla
-  z()
+if a
+  x
+// da
+
     `,
     //     `
     // function f()

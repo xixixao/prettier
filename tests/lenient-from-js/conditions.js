@@ -14,3 +14,7 @@ if (f(aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhso
   gagaga();
 }
 rarara();
+
+if (x) {
+} else {
+}
