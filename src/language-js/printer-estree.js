@@ -19,8 +19,9 @@ const join = docBuilders.join;
 const line = docBuilders.line;
 const hardline = docBuilders.hardline;
 const softline = docBuilders.softline;
-const singleline = docBuilders.singleline;
+const singleLine = docBuilders.singleLine;
 const singleSoftLine = docBuilders.singleSoftLine;
+const singleHardLine = docBuilders.singleHardLine;
 const literalline = docBuilders.literalline;
 const group = docBuilders.group;
 const indent = docBuilders.indent;
@@ -48,7 +49,7 @@ function openBrace(options) {
 }
 
 function closeBrace(options) {
-  return !options.lenient ? concat([hardline, "}"]) : singleline;
+  return !options.lenient ? concat([hardline, "}"]) : singleHardLine;
 }
 
 function closeSoftBrace(options, rightBrace) {
@@ -966,7 +967,9 @@ function printPathNoParens(path, options, print, args) {
           parent.type === "DoWhileStatement" ||
           (parent.type === "CatchClause" && !parentParent.finalizer) ||
           (options.lenient &&
-            (parent.type === "TryStatement" || parent.type === "CatchClause")))
+            (parent.type === "TryStatement" ||
+              parent.type === "CatchClause" ||
+              parent.type === "IfStatement")))
       ) {
         if (
           options.lenient &&
@@ -975,7 +978,7 @@ function printPathNoParens(path, options, print, args) {
         ) {
           return "{;}";
         }
-        return "{}";
+        return concat(["{}", options.lenient ? singleHardLine : ""]);
       }
 
       parts.push(openBrace(options));
@@ -1208,7 +1211,7 @@ function printPathNoParens(path, options, print, args) {
       let separatorParts = [];
       const props = propsAndLoc.sort((a, b) => a.loc - b.loc).map(prop => {
         const result = concat(separatorParts.concat(group(prop.printed)));
-        separatorParts = [separator, line];
+        separatorParts = [separator, options.lenient ? singleLine : line];
         if (
           prop.node.type === "TSPropertySignature" &&
           privateUtil.hasNodeIgnoreComment(prop.node)
@@ -1218,7 +1221,7 @@ function printPathNoParens(path, options, print, args) {
         if (
           sharedUtil.isNextLineEmpty(options.originalText, prop.node, options)
         ) {
-          parts.push(options.lenient ? singleline : hardline);
+          separatorParts.push(hardline);
         }
         return result;
       });
@@ -1752,11 +1755,14 @@ function printPathNoParens(path, options, print, args) {
         path.call(print, "body")
       ]);
     case "TryStatement":
+      const space = options.lenient ? "" : " ";
       return concat([
         "try ",
         path.call(print, "block"),
-        n.handler ? concat([" ", path.call(print, "handler")]) : "",
-        n.finalizer ? concat([" finally ", path.call(print, "finalizer")]) : ""
+        n.handler ? concat([space, path.call(print, "handler")]) : "",
+        n.finalizer
+          ? concat([space, "finally ", path.call(print, "finalizer")])
+          : ""
       ]);
     case "CatchClause":
       return concat([
@@ -3292,7 +3298,7 @@ function printStatementSequence(path, options, print) {
     printed.push(concat(parts));
   });
 
-  return join(options.lenient ? singleline : hardline, printed);
+  return join(options.lenient ? singleHardLine : hardline, printed);
 }
 
 function isEmptyStatement(node, parent) {

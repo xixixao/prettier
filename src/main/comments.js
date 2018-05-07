@@ -4,7 +4,7 @@ const assert = require("assert");
 const docBuilders = require("../doc").builders;
 const concat = docBuilders.concat;
 const hardline = docBuilders.hardline;
-const singleline = docBuilders.singleline;
+const singleHardLine = docBuilders.singleHardLine;
 const breakParent = docBuilders.breakParent;
 const indent = docBuilders.indent;
 const lineSuffix = docBuilders.lineSuffix;
@@ -435,7 +435,7 @@ function printTrailingComment(commentPath, print, options) {
     return lineSuffix(
       concat([
         isLineBeforeEmpty ? hardline : "",
-        options.lenient ? singleline : hardline,
+        options.lenient ? singleHardLine : hardline,
         contents
       ])
     );

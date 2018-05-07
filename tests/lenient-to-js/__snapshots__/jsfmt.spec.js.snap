@@ -206,3 +206,39 @@ const math = {
 };
 
 `;
+
+exports[`trycatch.js 1`] = `
+try {} catch (x) {} finally {}
+
+try
+  f()
+catch (e)
+  g(e)
+
+try
+  f()
+catch (e)
+  g(e)
+finally
+  bam()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+try {
+} catch (x) {
+} finally {
+}
+
+try {
+  f();
+} catch (e) {
+  g(e);
+}
+
+try {
+  f();
+} catch (e) {
+  g(e);
+} finally {
+  bam();
+}
+
+`;
