@@ -1017,6 +1017,8 @@ function printPathNoParens(path, options, print, args) {
         } else {
           parts.push(" ", path.call(print, "argument"));
         }
+      } else if (options.lenient) {
+        parts.push(";");
       }
 
       if (hasDanglingComments(n)) {
