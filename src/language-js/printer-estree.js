@@ -44,12 +44,12 @@ function lineComma(options) {
   return !options.lenient ? "," : ifBreak("", ",");
 }
 
-function openBrace(options) {
-  return !options.lenient ? "{" : "";
+function openBrace(options, force) {
+  return !options.lenient || force ? "{" : "";
 }
 
-function closeBrace(options) {
-  return !options.lenient ? concat([hardline, "}"]) : singleHardLine;
+function closeBrace(options, force) {
+  return !options.lenient || force ? concat([hardline, "}"]) : singleHardLine;
 }
 
 function closeSoftBrace(options, rightBrace) {
@@ -982,7 +982,10 @@ function printPathNoParens(path, options, print, args) {
         return concat(["{}", options.lenient ? singleHardLine : ""]);
       }
 
-      parts.push(openBrace(options));
+      const needsBraces =
+        !options.lenient ||
+        (parent.type === "Program" || parent.type === "BlockStatement");
+      parts.push(openBrace(options, needsBraces));
 
       // Babel 6
       if (hasDirectives) {
@@ -1005,7 +1008,7 @@ function printPathNoParens(path, options, print, args) {
       }
 
       parts.push(comments.printDanglingComments(path, options));
-      parts.push(closeBrace(options));
+      parts.push(closeBrace(options, needsBraces));
 
       return concat(parts);
     }
