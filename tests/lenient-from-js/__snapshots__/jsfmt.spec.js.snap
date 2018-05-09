@@ -144,7 +144,6 @@ rarara()
 if x {}
 else {}
 
-
 `;
 
 exports[`declarations.js 1`] = `
@@ -269,17 +268,17 @@ try {
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 try {}
-catch (x) {}
+catch x {}
 finally {}
 
 try
   f()
-catch (e)
+catch e
   g(e)
 
 try
   f()
-catch (e)
+catch e
   g(e)
 finally
   bam()
