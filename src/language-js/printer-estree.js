@@ -990,7 +990,9 @@ function printPathNoParens(path, options, print, args) {
 
       const needsBraces =
         !options.lenient ||
-        (parent.type === "Program" || parent.type === "BlockStatement");
+        (parent.type === "Program" ||
+          parent.type === "BlockStatement" ||
+          parent.type === "SwitchCase");
       parts.push(openBrace(options, needsBraces));
 
       // Babel 6
