@@ -80,6 +80,12 @@ function blockArgument(options, body, argument) {
   ]);
 }
 
+function spaceAfterBreak(stmt, options) {
+  return !options.lenient
+    ? " "
+    : stmt && stmt.body && stmt.body.length === 0 ? singleHardLine : "";
+}
+
 function shouldPrintParens(options, body) {
   return (
     !options.lenient ||
@@ -979,7 +985,7 @@ function printPathNoParens(path, options, print, args) {
         ) {
           return "{;}";
         }
-        return concat(["{}", options.lenient ? singleHardLine : ""]);
+        return "{}";
       }
 
       const needsBraces =
@@ -1589,7 +1595,7 @@ function printPathNoParens(path, options, print, args) {
                 comment.trailing && !handleComments.isBlockComment(comment)
             )) ||
           needsHardlineAfterDanglingComment(n);
-        const space = options.lenient ? "" : " ";
+        const space = spaceAfterBreak(n.consequent, options);
         const elseOnSameLine =
           n.consequent.type === "BlockStatement" && !commentOnOwnLine;
         parts.push(elseOnSameLine ? space : hardline);
@@ -1759,13 +1765,24 @@ function printPathNoParens(path, options, print, args) {
         path.call(print, "body")
       ]);
     case "TryStatement":
-      const space = options.lenient ? "" : " ";
       return concat([
         "try ",
         path.call(print, "block"),
-        n.handler ? concat([space, path.call(print, "handler")]) : "",
+        n.handler
+          ? concat([
+              spaceAfterBreak(n.block, options),
+              path.call(print, "handler")
+            ])
+          : "",
         n.finalizer
-          ? concat([space, "finally ", path.call(print, "finalizer")])
+          ? concat([
+              spaceAfterBreak(
+                (n.handler && n.handler.body) || n.block,
+                options
+              ),
+              "finally ",
+              path.call(print, "finalizer")
+            ])
           : ""
       ]);
     case "CatchClause":
