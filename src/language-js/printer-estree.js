@@ -538,7 +538,7 @@ function printPathNoParens(path, options, print, args) {
     case "AssignmentPattern":
       return concat([
         path.call(print, "left"),
-        " = ",
+        options.lenient ? " := " : " = ",
         path.call(print, "right")
       ]);
     case "TSTypeAssertionExpression":
