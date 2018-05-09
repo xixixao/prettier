@@ -937,7 +937,8 @@ function printPathNoParens(path, options, print, args) {
           (options.lenient &&
             (parent.type === "TryStatement" ||
               parent.type === "CatchClause" ||
-              parent.type === "IfStatement")))
+              parent.type === "IfStatement" ||
+              parent.type === "DeclareModule")))
       ) {
         if (
           options.lenient &&
@@ -1723,7 +1724,7 @@ function printPathNoParens(path, options, print, args) {
             blockArgument(options, false, path.call(print, "discriminant"))
           ])
         ),
-        " ", // TODO: get rid of this space same as for if statements
+        " ",
         openBrace(options),
         n.cases.length > 0
           ? indent(
@@ -1748,7 +1749,7 @@ function printPathNoParens(path, options, print, args) {
                 )
               ])
             )
-          : "",
+          : options.lenient ? "{}" : "",
         closeBrace(options)
       ]);
     case "SwitchCase": {
