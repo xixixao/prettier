@@ -1656,7 +1656,7 @@ function printPathNoParens(path, options, print, args) {
       parts = [doBody];
 
       if (n.body.type === "BlockStatement") {
-        parts.push(" ");
+        parts.push(options.lenient ? "" : " ");
       } else {
         parts.push(hardline);
       }
