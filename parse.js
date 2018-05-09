@@ -2,10 +2,8 @@ console.log(
   require(".").format(
     // // NOTE: FIX:
     `
-if a
-  x
-// da
-
+class X
+  static x = 3
     `,
     //     `
     // function f()
@@ -83,7 +81,8 @@ if a
       semi: true,
       parser(text) {
         return require("babylon-lenient").parse(text, {
-          plugins: ["lenient", "flow", "jsx"]
+          plugins: ["lenient", "flow", "jsx", "classProperties"],
+          sourceType: "module"
         });
       }
     }
