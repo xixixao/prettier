@@ -49,6 +49,10 @@ class X extends B
     da()
 
 bla = 5
+
+class X /* stay behind class name */
+  // be inside class body
+  m() {}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class X extends B {
   other() {
@@ -57,6 +61,11 @@ class X extends B {
 }
 
 const bla = 5;
+
+class X /* stay behind class name */ {
+  // be inside class body
+  m() {}
+}
 
 `;
 

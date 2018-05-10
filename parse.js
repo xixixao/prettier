@@ -1,9 +1,11 @@
+Error.stackTraceLimit = 100;
 console.log(
   require(".").format(
     // // NOTE: FIX:
     `
-class X
-  static x = 3
+class X /*ads*/
+  // haasdsadsad
+  m() {}
     `,
     //     `
     // function f()
@@ -81,7 +83,7 @@ class X
       semi: true,
       parser(text) {
         return require("babylon-lenient").parse(text, {
-          plugins: ["lenient", "flow", "jsx", "classProperties"],
+          plugins: ["lenient", "jsx", "flow", "classProperties"],
           sourceType: "module"
         });
       }
