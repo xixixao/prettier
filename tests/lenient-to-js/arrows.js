@@ -17,3 +17,8 @@ bare = () => {;}
 editor.observeGrammar((x) =>
   f();
 );
+
+(
+  x
+  y
+) => x
