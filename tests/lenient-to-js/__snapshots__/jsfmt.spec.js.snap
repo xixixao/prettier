@@ -20,6 +20,11 @@ bare = () => {;}
 editor.observeGrammar((x) =>
   f();
 );
+
+(
+  x
+  y
+) => x
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const g = x => {
   x * square(x);
@@ -40,6 +45,8 @@ const bare = () => {};
 editor.observeGrammar(x => {
   f();
 });
+
+(x, y) => x;
 
 `;
 
