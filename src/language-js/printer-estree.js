@@ -1653,6 +1653,7 @@ function printPathNoParens(path, options, print, args) {
         /* sameLine */ true
       );
       const printedComments = dangling ? concat([dangling, softline]) : "";
+      const shouldUseParens = !n.update ? true : n.body;
 
       if (!n.init && !n.test && !n.update) {
         return concat([
@@ -1660,9 +1661,9 @@ function printPathNoParens(path, options, print, args) {
           group(
             concat([
               "for",
-              openParen(options, n.body),
+              openParen(options, shouldUseParens),
               ";;",
-              closeParen(options, n.body),
+              closeParen(options, shouldUseParens),
               body
             ])
           )
@@ -1676,7 +1677,7 @@ function printPathNoParens(path, options, print, args) {
             "for",
             blockArgument(
               options,
-              n.body,
+              shouldUseParens,
               concat([
                 path.call(print, "init"),
                 ";",
