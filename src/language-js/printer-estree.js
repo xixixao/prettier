@@ -1864,13 +1864,20 @@ function printPathNoParens(path, options, print, args) {
       } else {
         parts.push("default");
       }
-      if (!options.lenient) {
-        parts.push(":");
-      }
 
       const consequent = n.consequent.filter(
         node => !isEmptyStatement(node, n)
       );
+
+      if (
+        !options.lenient ||
+        (consequent.length > 0 &&
+          consequent[0].type === "ExpressionStatement" &&
+          (consequent[0].expression.type === "RegExpLiteral" ||
+            consequent[0].expression.regex))
+      ) {
+        parts.push(":");
+      }
 
       if (consequent.length > 0) {
         const cons = path.call(consequentPath => {

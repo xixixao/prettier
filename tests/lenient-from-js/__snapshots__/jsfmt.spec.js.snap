@@ -177,7 +177,7 @@ loop: for (;;) {
   break;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-;loop: for ;;
+;loop: for (;;)
   break
 
 
@@ -250,6 +250,28 @@ ob = {
   c()
     g();
 }
+
+`;
+
+exports[`switch.js 1`] = `
+function f(x) {
+  switch (x) {
+    case 0:
+      /asdsad/;
+    case 1:
+      f(0);
+      return 2;
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function f(x)
+  switch x
+    case 0:
+      /asdsad/
+    case 1
+      f(0)
+      return 2
+
 
 `;
 
