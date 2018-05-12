@@ -90,7 +90,8 @@ function shouldPrintParens(options, body) {
   return (
     !options.lenient ||
     (body !== false &&
-      (body.type !== "BlockStatement" || hasLeadingComment(body)))
+      (body === true ||
+        (body.type !== "BlockStatement" || hasLeadingComment(body))))
   );
 }
 
@@ -1803,10 +1804,12 @@ function printPathNoParens(path, options, print, args) {
           : ""
       ]);
     case "CatchClause":
+      const shouldUseParens =
+        n.param && n.param.type === "ObjectPattern" ? true : n.body;
       return concat([
         "catch",
         n.param
-          ? blockArgument(options, n.body, path.call(print, "param"))
+          ? blockArgument(options, shouldUseParens, path.call(print, "param"))
           : "",
         " ",
         path.call(print, "body")
