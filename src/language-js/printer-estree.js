@@ -95,6 +95,10 @@ function shouldPrintParens(options, body) {
   );
 }
 
+function fullLenient(options) {
+  return options.lenient && !options.lenientCompat;
+}
+
 function shouldPrintComma(options, level) {
   level = level || "es5";
 
@@ -991,11 +995,7 @@ function printPathNoParens(path, options, print, args) {
               parent.type === "IfStatement" ||
               parent.type === "DeclareModule")))
       ) {
-        if (
-          options.lenient &&
-          !options.lenientCompat &&
-          parent.type === "ArrowFunctionExpression"
-        ) {
+        if (fullLenient(options) && parent.type === "ArrowFunctionExpression") {
           return "{;}";
         }
         return "{}";
@@ -1542,8 +1542,7 @@ function printPathNoParens(path, options, print, args) {
       const isDeclare = isNodeStartingWithDeclare(n, options);
       const declarator = isDeclare
         ? n.kind
-        : options.lenient &&
-          !options.lenientCompat &&
+        : fullLenient(options) &&
           n.kind === "const" &&
           n.declarations.length === 1 &&
           n.declarations[0].id.type === "Identifier"
@@ -1574,9 +1573,7 @@ function printPathNoParens(path, options, print, args) {
     case "VariableDeclarator":
       const parentNode = path.getParentNode();
       const eqOperator =
-        !options.lenient || options.lenientCompat || parentNode.kind === "const"
-          ? " ="
-          : " :=";
+        !fullLenient(options) || parentNode.kind === "const" ? " =" : " :=";
       return printAssignment(
         n.id,
         concat([path.call(print, "id"), path.call(print, "typeParameters")]),
@@ -1703,6 +1700,7 @@ function printPathNoParens(path, options, print, args) {
       return group(
         concat([
           n.each ? "for each (" : "for (",
+          fullLenient(options) && n.left.type === "Identifier" ? "set " : "",
           path.call(print, "left"),
           " in ",
           path.call(print, "right"),
@@ -1723,6 +1721,7 @@ function printPathNoParens(path, options, print, args) {
           "for",
           isAwait ? " await" : "",
           openParen(options, n.body),
+          fullLenient(options) && n.left.type === "Identifier" ? "set " : "",
           path.call(print, "left"),
           " of ",
           path.call(print, "right"),
