@@ -993,6 +993,8 @@ function printPathNoParens(path, options, print, args) {
             (parent.type === "TryStatement" ||
               parent.type === "CatchClause" ||
               parent.type === "IfStatement" ||
+              parent.type === "ForInStatement" ||
+              parent.type === "ForOfStatement" ||
               parent.type === "DeclareModule")))
       ) {
         if (fullLenient(options) && parent.type === "ArrowFunctionExpression") {
