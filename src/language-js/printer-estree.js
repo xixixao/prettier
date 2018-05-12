@@ -4230,7 +4230,11 @@ function printClass(path, options, print) {
     partsGroup.push(
       line,
       "mixins ",
-      group(indent(join(concat([",", line]), path.map(print, "mixins"))))
+      group(
+        indent(
+          join(concat([lineComma(options), line]), path.map(print, "mixins"))
+        )
+      )
     );
   }
 
@@ -4247,18 +4251,6 @@ function printClass(path, options, print) {
               path.map(print, "implements")
             )
           ])
-        )
-      )
-    );
-  }
-
-  if (n["mixins"] && n["mixins"].length > 0) {
-    partsGroup.push(
-      line,
-      "mixins ",
-      group(
-        indent(
-          join(concat([lineComma(options), line]), path.map(print, "mixins"))
         )
       )
     );
