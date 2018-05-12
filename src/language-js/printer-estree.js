@@ -1587,11 +1587,15 @@ function printPathNoParens(path, options, print, args) {
         concat([
           "with",
           blockArgument(options, n.body, path.call(print, "object")),
-          adjustClause(n.body, path.call(print, "body"))
+          adjustClause(n.body, path.call(print, "body"), options)
         ])
       );
     case "IfStatement": {
-      const con = adjustClause(n.consequent, path.call(print, "consequent"));
+      const con = adjustClause(
+        n.consequent,
+        path.call(print, "consequent"),
+        options
+      );
       const opening = group(
         concat([
           "if",
@@ -1628,6 +1632,7 @@ function printPathNoParens(path, options, print, args) {
             adjustClause(
               n.alternate,
               path.call(print, "alternate"),
+              options,
               n.alternate.type === "IfStatement"
             )
           )
@@ -1637,7 +1642,7 @@ function printPathNoParens(path, options, print, args) {
       return concat(parts);
     }
     case "ForStatement": {
-      const body = adjustClause(n.body, path.call(print, "body"));
+      const body = adjustClause(n.body, path.call(print, "body"), options);
 
       // We want to keep dangling comments above the loop to stay consistent.
       // Any comment positioned between the for statement and the parentheses
@@ -1692,7 +1697,7 @@ function printPathNoParens(path, options, print, args) {
         concat([
           "while",
           blockArgument(options, n.body, path.call(print, "test")),
-          adjustClause(n.body, path.call(print, "body"))
+          adjustClause(n.body, path.call(print, "body"), options)
         ])
       );
     case "ForInStatement":
@@ -1705,7 +1710,7 @@ function printPathNoParens(path, options, print, args) {
           " in ",
           path.call(print, "right"),
           ")",
-          adjustClause(n.body, path.call(print, "body"))
+          adjustClause(n.body, path.call(print, "body"), options)
         ])
       );
 
@@ -1726,13 +1731,13 @@ function printPathNoParens(path, options, print, args) {
           " of ",
           path.call(print, "right"),
           closeParen(options, n.body),
-          adjustClause(n.body, path.call(print, "body"))
+          adjustClause(n.body, path.call(print, "body"), options)
         ])
       );
     }
 
     case "DoWhileStatement": {
-      const clause = adjustClause(n.body, path.call(print, "body"));
+      const clause = adjustClause(n.body, path.call(print, "body"), options);
       const doBody = group(concat(["do", clause]));
       parts = [doBody];
 
@@ -5288,12 +5293,16 @@ function printAssignmentOperator(operator, options) {
   return options.lenient && operator === "=" ? ":=" : operator;
 }
 
-function adjustClause(node, clause, forceSpace) {
+function adjustClause(node, clause, options, forceSpace) {
   if (node.type === "EmptyStatement") {
     return ";";
   }
 
-  if (node.type === "BlockStatement" || forceSpace) {
+  if (
+    node.type === "BlockStatement" ||
+    forceSpace ||
+    (options.lenient && node.type === "ExpressionStatement")
+  ) {
     return concat([" ", clause]);
   }
 

@@ -121,6 +121,8 @@ rarara();
 if (x) {
 } else {
 }
+
+if (m) asdhoasudhasodusahdosaudhsaoudhsaoudhsaoudhsaoudhasouhdsaoudhosaudhuasd(x);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if x
   f()
@@ -143,6 +145,10 @@ rarara()
 
 if x {}
 else {}
+
+if (m) asdhoasudhasodusahdosaudhsaoudhsaoudhsaoudhsaoudhasouhdsaoudhosaudhuasd(
+  x
+)
 
 `;
 

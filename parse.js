@@ -2,7 +2,8 @@
 console.log(
   require(".").format(
     `
-x?.a
+if ((x) && y) f
+
     `,
     {
       bracketSpacing: false,
