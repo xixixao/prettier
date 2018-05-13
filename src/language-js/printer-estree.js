@@ -55,7 +55,9 @@ function closeBrace(options, force) {
 function closeSoftBrace(options, rightBrace) {
   return concat([
     !options.lenient
-      ? options.bracketSpacing ? line : softline
+      ? options.bracketSpacing
+        ? line
+        : softline
       : singleSoftLine,
     rightBrace
   ]);
@@ -83,7 +85,9 @@ function blockArgument(options, body, argument) {
 function spaceAfterBreak(stmt, options) {
   return !options.lenient
     ? " "
-    : stmt && stmt.body && stmt.body.length === 0 ? singleHardLine : "";
+    : stmt && stmt.body && stmt.body.length === 0
+      ? singleHardLine
+      : "";
 }
 
 function shouldPrintParens(options, body) {
@@ -153,8 +157,8 @@ function genericPrint(path, options, printPath, args) {
         (decorator.type === "Identifier" ||
           decorator.type === "MemberExpression" ||
           decorator.type === "OptionalMemberExpression" ||
-          (decorator.type === "CallExpression" &&
-            decorator.type === "OptionalCallExpression" &&
+          ((decorator.type === "CallExpression" ||
+            decorator.type === "OptionalCallExpression") &&
             (decorator.arguments.length === 0 ||
               (decorator.arguments.length === 1 &&
                 (isStringLiteral(decorator.arguments[0]) ||
@@ -349,7 +353,9 @@ function formatTernaryOperator(path, options, print, operatorOptions) {
   // outer-most ConditionalExpression.
   const maybeGroup = doc =>
     operatorOpts.breakNested
-      ? parent === firstNonConditionalParent ? group(doc) : doc
+      ? parent === firstNonConditionalParent
+        ? group(doc)
+        : doc
       : group(doc); // Always group in normal mode.
 
   // Break the closing paren to keep the chain right after it:
@@ -1290,7 +1296,9 @@ function printPathNoParens(path, options, print, args) {
           ifBreak(
             canHaveTrailingSeparator &&
             (separator !== "," || shouldPrintComma(options))
-              ? separator === "," ? lineComma(options) : separator
+              ? separator === ","
+                ? lineComma(options)
+                : separator
               : ""
           ),
           closeSoftBrace(options, rightBrace),
@@ -1857,7 +1865,9 @@ function printPathNoParens(path, options, print, args) {
                 )
               ])
             )
-          : options.lenient ? "{}" : "",
+          : options.lenient
+            ? "{}"
+            : "",
         closeBrace(options)
       ]);
     case "SwitchCase": {
@@ -2114,7 +2124,9 @@ function printPathNoParens(path, options, print, args) {
           concat([
             hasOwnLineComment
               ? hardline
-              : hasComment && !isOpeningFragment ? " " : "",
+              : hasComment && !isOpeningFragment
+                ? " "
+                : "",
             comments.printDanglingComments(path, options, true)
           ])
         ),
