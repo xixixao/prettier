@@ -25,6 +25,20 @@ editor.observeGrammar((x) =>
   x
   y
 ) => x
+
+() =>
+  // a
+  return a;
+
+// b
+x
+
+() =>
+  // a
+  return a
+
+// b
+x
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const g = x => {
   x * square(x);
@@ -47,6 +61,22 @@ editor.observeGrammar(x => {
 });
 
 (x, y) => x;
+
+() => {
+  // a
+  return a;
+};
+
+// b
+x;
+
+() => {
+  // a
+  return a;
+};
+
+// b
+x;
 
 `;
 

@@ -22,3 +22,17 @@ editor.observeGrammar((x) =>
   x
   y
 ) => x
+
+() =>
+  // a
+  return a;
+
+// b
+x
+
+() =>
+  // a
+  return a
+
+// b
+x
