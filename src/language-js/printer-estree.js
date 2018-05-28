@@ -3411,7 +3411,7 @@ function printPropertyKey(path, options, print) {
     isStringLiteral(key) &&
     isIdentifierName(key.value) &&
     !node.computed &&
-    !isParser(options, "json")
+    (options.lenient || !isParser(options, "json"))
   ) {
     // 'a' -> a
     return path.call(
