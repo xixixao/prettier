@@ -4,6 +4,7 @@ const assert = require("assert");
 const comments = require("./comments");
 const FastPath = require("../common/fast-path");
 const multiparser = require("./multiparser");
+const util = require("../common/util");
 
 const doc = require("../doc");
 const docBuilders = doc.builders;
@@ -11,6 +12,7 @@ const concat = docBuilders.concat;
 const hardline = docBuilders.hardline;
 const addAlignmentToDoc = docBuilders.addAlignmentToDoc;
 const docUtils = doc.utils;
+const isParser = util.isParser;
 
 function printAstToDoc(ast, options, addAlignmentSize) {
   addAlignmentSize = addAlignmentSize || 0;
@@ -59,7 +61,7 @@ function printAstToDoc(ast, options, addAlignmentSize) {
   }
   docUtils.propagateBreaks(doc);
 
-  if (options.parser === "json" || options.parser === "json5") {
+  if (isParser(options, "json") || isParser(options, "json5")) {
     doc = concat([doc, hardline]);
   }
 

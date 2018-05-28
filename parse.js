@@ -2,7 +2,10 @@
 console.log(
   require(".").format(
     `
-if ((x) && y) f
+{
+  name: 'lenientjs'
+  main: 'src/index.js'
+}
 
     `,
     {
@@ -10,7 +13,7 @@ if ((x) && y) f
       lenient: false,
       semi: true,
       parser(text) {
-        return require("babylon-lenient").parse(text, {
+        return require("babylon-lenient").parseExpression(text, {
           plugins: [
             "lenient",
             "doExpressions",
