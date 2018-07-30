@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`arrows.js 1`] = `
+exports[`arrows.js - flow-verify 1`] = `
 ob.forEach(x => ({
   a: "hey",
 }));

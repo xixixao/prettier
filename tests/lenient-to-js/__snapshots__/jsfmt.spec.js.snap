@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`arrows.js 1`] = `
+exports[`arrows.js - custom parser-verify 1`] = `
 g = x =>
   x * square(x);
 
@@ -80,7 +80,7 @@ x;
 
 `;
 
-exports[`classes.js 1`] = `
+exports[`classes.js - custom parser-verify 1`] = `
 class X extends B
   other()
     da()
@@ -106,7 +106,7 @@ class X /* stay behind class name */ {
 
 `;
 
-exports[`comments.js 1`] = `
+exports[`comments.js - custom parser-verify 1`] = `
 x = () =>
   // unreachable
   return null
@@ -156,7 +156,7 @@ if (a) {
 
 `;
 
-exports[`conditions.js 1`] = `
+exports[`conditions.js - custom parser-verify 1`] = `
 
 if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
     asdhousadhsaoudhsoaudhsaoudh
@@ -201,21 +201,21 @@ if (x && y) {
 
 `;
 
-exports[`declarations.js 1`] = `
+exports[`declarations.js - custom parser-verify 1`] = `
 let x := 3
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let x = 3;
 
 `;
 
-exports[`destructure.js 1`] = `
+exports[`destructure.js - custom parser-verify 1`] = `
 const {x} = y
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const {x} = y;
 
 `;
 
-exports[`labels.js 1`] = `
+exports[`labels.js - custom parser-verify 1`] = `
 ;loop: for (;;)
   break
 
@@ -235,7 +235,7 @@ const b: A | B = 1;
 
 `;
 
-exports[`objects.js 1`] = `
+exports[`objects.js - custom parser-verify 1`] = `
 math = {
   root: Math.sqrt
   square: square
@@ -253,7 +253,7 @@ const math = {
 
 `;
 
-exports[`trycatch.js 1`] = `
+exports[`trycatch.js - custom parser-verify 1`] = `
 try {} catch (x) {} finally {}
 
 try

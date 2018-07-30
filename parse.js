@@ -2,10 +2,10 @@
 console.log(
   require(".").format(
     `
-{
-  name: 'lenientjs'
-  main: 'src/index.js'
-}
+(
+  x
+  y
+) => z
 
     `,
     {
@@ -13,7 +13,7 @@ console.log(
       lenient: false,
       semi: true,
       parser(text) {
-        return require("babylon-lenient").parseExpression(text, {
+        return require("babylon-lenient").parse(text, {
           plugins: [
             "lenient",
             "doExpressions",

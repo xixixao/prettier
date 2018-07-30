@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`arrows.js 1`] = `
+exports[`arrows.js - flow-verify 1`] = `
 [1, 2, 3].forEach(x => {
   fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x);
 });
@@ -38,7 +38,7 @@ obj = () => {}
 
 `;
 
-exports[`classes.js 1`] = `
+exports[`classes.js - flow-verify 1`] = `
 class X extends B {
   other() {
     return da;
@@ -77,7 +77,7 @@ f(
 
 `;
 
-exports[`comments.js 1`] = `
+exports[`comments.js - flow-verify 1`] = `
 if (a) {
   x;
 }
@@ -100,7 +100,7 @@ if a
 
 `;
 
-exports[`conditions.js 1`] = `
+exports[`conditions.js - flow-verify 1`] = `
 if (x) {
   f();
 } else {
@@ -152,7 +152,7 @@ if (m) asdhoasudhasodusahdosaudhsaoudhsaoudhsaoudhsaoudhasouhdsaoudhosaudhuasd(
 
 `;
 
-exports[`declarations.js 1`] = `
+exports[`declarations.js - flow-verify 1`] = `
 const x = 1, y = 2;
 
 const {z} = 3;
@@ -172,7 +172,7 @@ let x := 3
 
 `;
 
-exports[`labels.js 1`] = `
+exports[`labels.js - flow-verify 1`] = `
 loop: for (;;) {
   break;
 }
@@ -183,7 +183,7 @@ loop: for (;;) {
 
 `;
 
-exports[`loops.js 1`] = `
+exports[`loops.js - flow-verify 1`] = `
 while (x) {
   a()
 }
@@ -226,7 +226,7 @@ for let i := 0;
 
 `;
 
-exports[`objects.js 1`] = `
+exports[`objects.js - flow-verify 1`] = `
 const ob = {
   a() {},
 
@@ -253,7 +253,7 @@ ob = {
 
 `;
 
-exports[`switch.js 1`] = `
+exports[`switch.js - flow-verify 1`] = `
 function f(x) {
   switch (x) {
     case 0:
@@ -275,7 +275,7 @@ function f(x)
 
 `;
 
-exports[`trycatch.js 1`] = `
+exports[`trycatch.js - flow-verify 1`] = `
 try {
 } catch (x) {
 } finally {
