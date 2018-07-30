@@ -495,12 +495,11 @@ function printString(raw, options, isDirectiveLiteral) {
     canChangeDirectiveQuotes = true;
   }
 
-  const enclosingQuote =
-    options.parser === "json"
-      ? double.quote
-      : shouldUseAlternateQuote
-        ? alternate.quote
-        : preferred.quote;
+  const enclosingQuote = isParser(options, "json")
+    ? double.quote
+    : shouldUseAlternateQuote
+      ? alternate.quote
+      : preferred.quote;
 
   // Directives are exact code unit sequences, which means that you can't
   // change the escape sequences they use.
@@ -521,11 +520,15 @@ function printString(raw, options, isDirectiveLiteral) {
     rawContent,
     enclosingQuote,
     !(
-      options.parser === "css" ||
-      options.parser === "less" ||
-      options.parser === "scss"
+      isParser(options, "css") ||
+      isParser(options, "less") ||
+      isParser(options, "scss")
     )
   );
+}
+
+function isParser(options, name) {
+  return options.parser === name || options.parser.printer === name;
 }
 
 function makeString(rawContent, enclosingQuote, unescapeUnnecessaryEscapes) {
@@ -833,6 +836,7 @@ module.exports = {
   getIndentSize,
   printString,
   printNumber,
+  isParser,
   hasIgnoreComment,
   hasNodeIgnoreComment,
   makeString,

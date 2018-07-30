@@ -31,6 +31,22 @@ module.exports = {
     default: false,
     description: "Put > on the last line instead of at a new line."
   },
+  lenient: {
+    since: "1.0.0",
+    category: CATEGORY_JAVASCRIPT,
+    type: "boolean",
+    default: false,
+    description: "Print into lenient syntax.",
+    oppositeDescription: "Do not print into lenient syntax"
+  },
+  lenientCompat: {
+    since: "1.0.0",
+    category: CATEGORY_JAVASCRIPT,
+    type: "boolean",
+    default: false,
+    description: "Print into lenient JS-backwards compatible syntax.",
+    oppositeDescription: "Print into full lenient syntax"
+  },
   semi: {
     since: "1.0.0",
     category: CATEGORY_JAVASCRIPT,

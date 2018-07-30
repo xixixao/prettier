@@ -4,6 +4,7 @@ const assert = require("assert");
 const {
   concat,
   hardline,
+  singleHardLine,
   breakParent,
   indent,
   lineSuffix,
@@ -428,7 +429,11 @@ function printTrailingComment(commentPath, print, options) {
     );
 
     return lineSuffix(
-      concat([hardline, isLineBeforeEmpty ? hardline : "", contents])
+      concat([
+        isLineBeforeEmpty ? hardline : "",
+        options.lenient ? singleHardLine : hardline,
+        contents
+      ])
     );
   } else if (isBlock || isParentSuperClass) {
     // Trailing block comments never need a newline

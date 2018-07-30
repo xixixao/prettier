@@ -109,6 +109,7 @@ function needsParens(path, options) {
   if (
     (parent.type === "ArrowFunctionExpression" &&
     parent.body === node &&
+    (!options.lenient || options.lenientCompat) &&
     node.type !== "SequenceExpression" && // these have parens added anyway
       util.startsWithNoLookaheadToken(
         node,
@@ -424,8 +425,8 @@ function needsParens(path, options) {
         parent.type === "ExpressionStatement" &&
         // TypeScript workaround for eslint/typescript-eslint-parser#267
         // See corresponding workaround in printer.js case: "Literal"
-        ((options.parser !== "typescript" && !parent.directive) ||
-          (options.parser === "typescript" &&
+        ((!util.isParser(options, "typescript") && !parent.directive) ||
+          (util.isParser(options, "typescript") &&
             options.originalText.substr(options.locStart(node) - 1, 1) === "("))
       ) {
         // To avoid becoming a directive

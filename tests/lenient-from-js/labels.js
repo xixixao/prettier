@@ -1,0 +1,3 @@
+loop: for (;;) {
+  break;
+}

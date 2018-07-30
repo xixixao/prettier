@@ -4,40 +4,9 @@ const createError = require("../common/parser-create-error");
 const hasPragma = require("./pragma").hasPragma;
 const locFns = require("./loc");
 
-function parse(text, parsers, opts) {
+function parse(text, parsers, opts, babylonOptions) {
   // Inline the require to avoid loading all the JS if we don't use it
-  const babylon = require("@babel/parser");
-
-  const babylonOptions = {
-    sourceType: "module",
-    allowAwaitOutsideFunction: true,
-    allowImportExportEverywhere: true,
-    allowReturnOutsideFunction: true,
-    allowSuperOutsideMethod: true,
-    plugins: [
-      "jsx",
-      "flow",
-      "doExpressions",
-      "objectRestSpread",
-      "decorators-legacy",
-      "classProperties",
-      "exportDefaultFrom",
-      "exportNamespaceFrom",
-      "asyncGenerators",
-      "functionBind",
-      "functionSent",
-      "dynamicImport",
-      "numericSeparator",
-      "importMeta",
-      "optionalCatchBinding",
-      "optionalChaining",
-      "classPrivateProperties",
-      "pipelineOperator",
-      "nullishCoalescingOperator",
-      "bigInt",
-      "throwExpressions"
-    ]
-  };
+  const babylon = require("babylon-lenient");
 
   const parseMethod =
     opts && (opts.parser === "json" || opts.parser === "json5")
@@ -54,6 +23,9 @@ function parse(text, parsers, opts) {
         Object.assign({}, babylonOptions, { strictMode: false })
       );
     } catch (nonStrictError) {
+      if (nonStrictError.loc == null) {
+        throw nonStrictError;
+      }
       throw createError(
         // babel error prints (l:c) with cols that are zero indexed
         // so we need our custom error

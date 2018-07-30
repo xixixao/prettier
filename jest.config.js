@@ -13,7 +13,8 @@ const isOldNode = semver.parse(process.version).major <= 4;
 module.exports = {
   setupFiles: ["<rootDir>/tests_config/run_spec.js"],
   snapshotSerializers: ["<rootDir>/tests_config/raw-serializer.js"],
-  testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$",
+  // testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$",
+  testRegex: "tests/lenient/jsfmt\\.spec\\.js$",
   testPathIgnorePatterns: ["tests/new_react", "tests/more_react"].concat(
     isOldNode ? requiresPrettierInternals : []
   ),

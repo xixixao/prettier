@@ -1,6 +1,6 @@
 "use strict";
 
-const { getStringWidth } = require("../common/util");
+const { getStringWidth, isParser } = require("../common/util");
 const { concat, fill, cursor } = require("./doc-builders");
 
 /** @type {{[groupId: PropertyKey]: MODE}} */
@@ -214,6 +214,7 @@ function printDocToString(doc, options) {
   const out = [];
   let shouldRemeasure = false;
   let lineSuffix = [];
+  let isPrevLineSingle = false;
 
   while (cmds.length !== 0) {
     const x = cmds.pop();
@@ -474,20 +475,36 @@ function printDocToString(doc, options) {
                 if (out.length > 0) {
                   // Trim whitespace at the end of line
                   while (
-                    out.length > 0 &&
-                    typeof out[out.length - 1] === "string" &&
-                    out[out.length - 1].match(/^[^\S\n]*$/)
+                    (out.length > 0 &&
+                      typeof out[out.length - 1] === "string" &&
+                      out[out.length - 1].match(/^[^\S\n]*$/)) ||
+                    (doc.single &&
+                      typeof out[out.length - 1] === "string" &&
+                      out[out.length - 1].match(/^\n\s*$/) &&
+                      (isPrevLineSingle ||
+                        (out.length > 1 &&
+                          typeof out[out.length - 2] === "string" &&
+                          out[out.length - 2].match(/\n\s*$/))))
                   ) {
                     out.pop();
                   }
 
-                  if (out.length && typeof out[out.length - 1] === "string") {
+                  if (
+                    out.length &&
+                    typeof out[out.length - 1] === "string" &&
+                    (!isParser(options, "markdown") ||
+                      // preserve markdown's `break` node (two trailing spaces)
+                      !/\S {2}$/.test(out[out.length - 1]))
+                  ) {
                     out[out.length - 1] = out[out.length - 1].replace(
                       /[^\S\n]*$/,
                       ""
                     );
                   }
                 }
+                // This allows singleHardLine to keep a blank line in case
+                // previous line is not a singleHardLine
+                isPrevLineSingle = doc.single;
 
                 out.push(newLine + ind.value);
                 pos = ind.length;

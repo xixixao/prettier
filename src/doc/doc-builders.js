@@ -116,6 +116,12 @@ const breakParent = { type: "break-parent" };
 const line = { type: "line" };
 const softline = { type: "line", soft: true };
 const hardline = concat([{ type: "line", hard: true }, breakParent]);
+const singleLine = { type: "line", single: true };
+const singleSoftLine = { type: "line", soft: true, single: true };
+const singleHardLine = concat([
+  { type: "line", hard: true, single: true },
+  breakParent
+]);
 const literalline = concat([
   { type: "line", hard: true, literal: true },
   breakParent
@@ -158,6 +164,9 @@ module.exports = {
   line,
   softline,
   hardline,
+  singleLine,
+  singleSoftLine,
+  singleHardLine,
   literalline,
   group,
   conditionalGroup,

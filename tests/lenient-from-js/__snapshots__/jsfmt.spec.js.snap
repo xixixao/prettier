@@ -1,0 +1,315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`arrows.js 1`] = `
+[1, 2, 3].forEach(x => {
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x);
+});
+
+[1, 2, 3].forEach(x =>
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x),
+);
+
+f(x =>{
+  while (true) {
+    g();
+  }
+})
+
+const bare = () => {};
+
+const obj = () => ({});
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[1, 2, 3].forEach(x =>
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x);
+)
+
+[1, 2, 3].forEach(x =>
+  fulemasdosuahdsaoudhsaoudhsadoadsdsadsdsaoduhsaouhdaouh(x)
+)
+
+f(x =>
+  while true
+    g()
+)
+
+bare = () => {;}
+
+obj = () => {}
+
+`;
+
+exports[`classes.js 1`] = `
+class X extends B {
+  other() {
+    return da;
+  }
+
+  method() {
+    return bla;
+  }
+
+  m = () => {
+    b();
+  }
+}
+
+f(class X{
+  m(){
+    bla()
+  }
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class X extends B
+  other()
+    return da
+
+  method()
+    return bla
+
+  m = () =>
+    b();
+
+f(
+  class X
+    m()
+      bla();
+)
+
+`;
+
+exports[`comments.js 1`] = `
+if (a) {
+  x;
+}
+// right after you
+
+if (a) {
+  x;
+}
+
+// single space above
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if a
+  x
+// right after you
+
+if a
+  x
+
+// single space above
+
+`;
+
+exports[`conditions.js 1`] = `
+if (x) {
+  f();
+} else {
+  g();
+}
+
+if (aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh) {
+  f();
+} else if (aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh) {
+  g();
+}
+
+if (f(aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh && asdhousadhsaoudhsoaudhsaoudh)) {
+  gagaga();
+}
+rarara();
+
+if (x) {
+} else {
+}
+
+if (m) asdhoasudhasodusahdosaudhsaoudhsaoudhsaoudhsaoudhasouhdsaoudhosaudhuasd(x);
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if x
+  f()
+else
+  g()
+
+if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+    asdhousadhsaoudhsoaudhsaoudh
+  f()
+else if aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+    asdhousadhsaoudhsoaudhsaoudh
+  g()
+
+if f(
+      aouhasduosahdouasdhsaoudhsaduosahdousahdsaoudhsaoduh &&
+        asdhousadhsaoudhsoaudhsaoudh
+    )
+  gagaga()
+rarara()
+
+if x {}
+else {}
+
+if (m) asdhoasudhasodusahdosaudhsaoudhsaoudhsaoudhsaoudhasouhdsaoudhosaudhuasd(
+  x
+)
+
+`;
+
+exports[`declarations.js 1`] = `
+const x = 1, y = 2;
+
+const {z} = 3;
+const {w} = 4;
+const u = 5;
+
+let x = 3;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const x = 1,
+  y = 2
+
+const {z} = 3
+const {w} = 4
+u = 5
+
+let x := 3
+
+`;
+
+exports[`labels.js 1`] = `
+loop: for (;;) {
+  break;
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+;loop: for (;;)
+  break
+
+
+`;
+
+exports[`loops.js 1`] = `
+while (x) {
+  a()
+}
+
+for (let i = 0; i < cubes.length; i++) {
+  alert(i, cubes[i]);
+}
+
+switch (x) {
+  case 'a': a(); break;
+}
+
+with (x) {
+  f();
+}
+
+for (let i = 0; i < cubes.length.cubes.length.cubes.length.cubes.length.cubes.length; i++) {
+  alert(i, cubes[i]);
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+while x
+  a()
+
+for let i := 0; i < cubes.length; i++
+  alert(i, cubes[i])
+
+switch x
+  case "a"
+    a()
+    break
+
+with x
+  f()
+
+for let i := 0;
+    i < cubes.length.cubes.length.cubes.length.cubes.length.cubes.length;
+    i++
+  alert(i, cubes[i])
+
+
+`;
+
+exports[`objects.js 1`] = `
+const ob = {
+  a() {},
+
+  b() {
+    f();
+  },
+
+  f() {},
+  c() {
+    g()
+  },
+};
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ob = {
+  a() {}
+
+  b()
+    f();
+
+  f() {}
+  c()
+    g();
+}
+
+`;
+
+exports[`switch.js 1`] = `
+function f(x) {
+  switch (x) {
+    case 0:
+      /asdsad/;
+    case 1:
+      f(0);
+      return 2;
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function f(x)
+  switch x
+    case 0:
+      /asdsad/
+    case 1
+      f(0)
+      return 2
+
+
+`;
+
+exports[`trycatch.js 1`] = `
+try {
+} catch (x) {
+} finally {
+}
+
+try {
+  f();
+} catch (e) {
+  g(e);
+}
+
+try {
+  f();
+} catch (e) {
+  g(e);
+} finally {
+  bam()
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+try {}
+catch x {}
+finally {}
+
+try
+  f()
+catch e
+  g(e)
+
+try
+  f()
+catch e
+  g(e)
+finally
+  bam()
+
+
+`;

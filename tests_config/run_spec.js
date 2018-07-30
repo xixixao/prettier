@@ -59,7 +59,9 @@ function run_spec(dirname, parsers, options) {
         cursorOffset
       });
       const output = prettyprint(input, path, mergedOptions);
-      test(`${filename} - ${mergedOptions.parser}-verify`, () => {
+      test(`${filename} - ${getParserName(
+        mergedOptions.parser
+      )}-verify`, () => {
         expect(
           raw(source + "~".repeat(mergedOptions.printWidth) + "\n" + output)
         ).toMatchSnapshot();
@@ -67,7 +69,7 @@ function run_spec(dirname, parsers, options) {
 
       parsers.slice(1).forEach(parser => {
         const verifyOptions = Object.assign({}, mergedOptions, { parser });
-        test(`${filename} - ${parser}-verify`, () => {
+        test(`${filename} - ${getParserName(parser)}-verify`, () => {
           const verifyOutput = prettyprint(input, path, verifyOptions);
           expect(output).toEqual(verifyOutput);
         });
@@ -128,6 +130,10 @@ function read(filename) {
 
 function skipStandalone(parser) {
   return new Set(["parse5", "glimmer"]).has(parser);
+}
+
+function getParserName(parser) {
+  return typeof parser === "string" ? parser : "custom parser";
 }
 
 /**
