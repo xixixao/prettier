@@ -103,7 +103,9 @@ async function run(params) {
 
   console.log(chalk.inverse(" Building packages "));
   for (const bundleConfig of bundleConfigs) {
-    await createBundle(bundleConfig, bundleCache);
+    if (!params['--'] || params['--'].some(name => bundleConfig.input.includes(name))) {
+      await createBundle(bundleConfig, bundleCache);
+    }
   }
 
   await bundleCache.save();
@@ -114,6 +116,7 @@ async function run(params) {
 
 run(
   minimist(process.argv.slice(2), {
-    boolean: ["purge-cache"]
+    boolean: ["purge-cache"],
+    '--': true,
   })
 );
